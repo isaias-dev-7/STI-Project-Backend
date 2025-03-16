@@ -4,11 +4,11 @@ POST {{baseUrl}}/user/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "admin",
     "fullname": "Isaias Elieser Osoria Tabares",
     "email": "admin@gmail.com",
     "password":"admin123",
-    "role": "admin"
+    "role": "admin",
+    "facultad": 1
 }
 
 ###
@@ -17,13 +17,15 @@ POST {{baseUrl}}/user/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "coret",
     "fullname": "Coret Osoria Tabares",
     "email": "coret@gmail.com",
     "password":"coret123",
     "role": "estudiante",
     "academicYear": 1,
-    "group": "3106"
+    "group": "3106",
+    "facultad": 1,
+    "curseType": "diurno"
+    
 }
 
 ###
@@ -32,22 +34,24 @@ POST {{baseUrl}}/user/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "coret",
-    "fullname": "Coret Osoria Tabares",
-    "email": "coret@gmail.com",
+    "fullname": "Mirta Osoria Tabares",
+    "email": "mirta@gmail.com",
     "password":"coret123",
-    "role": "estudiante",
+    "role": "professor_auxiliar",
     "academicYear": 1,
-    "group": "3106"
+    "group": "3106",
+    "facultad": 1,
+    "subject":"Inteligencia_Artificial"
+    
 }
 
 ###
 #Get all user with pagination 
-GET {{baseUrl}}/user?limit=2&page=2 HTTP/1.1
+GET {{baseUrl}}/user?limit=2&page=1 HTTP/1.1
 
 ###
 #Get user by id
-GET {{baseUrl}}/user/3 HTTP/1.1
+GET {{baseUrl}}/user/16 HTTP/1.1
 
 ###
 #Update user by id

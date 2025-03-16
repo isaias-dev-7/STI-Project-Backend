@@ -1,13 +1,10 @@
 import { IsDefined, IsEmail, IsIn, IsInt, IsOptional, IsString, Length, Max, Min } from "class-validator";
+import { curseEnum } from "src/common/enums/curseEnum";
+import { facultadEnum } from "src/common/enums/facultadEnum";
 import { roleEnum } from "src/common/enums/roleEnum";
 import { subjectEnum } from "src/common/enums/subjectEnum";
 
 export class CreateUserDto {
-    @IsDefined()
-    @IsString()
-    @Length(4, 10)
-    username: string;
-
     @IsDefined()
     @IsString()
     fullname: string;
@@ -31,6 +28,18 @@ export class CreateUserDto {
     ])
     role: string;
 
+    @IsDefined()
+    @IsString()
+    @IsIn([
+       facultadEnum.FACULTAD1.toString(),
+       facultadEnum.FACULTAD2.toString(),
+       facultadEnum.FACULTAD3.toString(),
+       facultadEnum.FACULTAD4.toString(),
+       facultadEnum.FACULTAD5.toString(),
+       facultadEnum.FACULTAD6.toString()
+    ])
+    facultad: string;
+
     @IsOptional()
     @IsString()
     @Length(4, 6)
@@ -41,6 +50,14 @@ export class CreateUserDto {
     @Min(1)
     @Max(4)
     academicYear?: number;
+
+    @IsOptional()
+    @IsString()
+    @IsIn([
+       curseEnum.DIURNO.toString(),
+       curseEnum.POR_ENCUENTRO.toString()
+    ])
+    curseType?: string;
 
     @IsOptional()
     @IsIn([subjectEnum.IA.toString()])

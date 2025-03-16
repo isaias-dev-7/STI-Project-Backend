@@ -6,5 +6,7 @@ export const messagesResponse = {
     groupNeeded: 'Es necesario el grupo',
     subjectNeeded: 'Es necesaria la asignatura',
     academicYearNeeded: 'Es necesario el año académico',
-    userNotFound: 'Usuario no encontrado'
+    userNotFound: 'Usuario no encontrado',
+    userUpdated: 'Usuario actualizado',
+    curseTypeNeeded: 'Es necesario el tipo de curso'
 }

@@ -1,4 +1,5 @@
-import { IsDefined, IsInt, IsString, Length, Max, Min} from "class-validator";
+import { IsDefined, IsIn, IsInt, IsString, Length, Max, Min} from "class-validator";
+import { curseEnum } from "src/common/enums/curseEnum";
 
 export class CreateStudentDto {
     @IsDefined()
@@ -12,5 +13,11 @@ export class CreateStudentDto {
     @Max(4)
     academicYear: number;
 
+    @IsDefined()
+    @IsIn([
+        curseEnum.DIURNO.toString(),
+        curseEnum.POR_ENCUENTRO.toString()
+    ])
+    curseType: string;
     //TODO relations with user
 }

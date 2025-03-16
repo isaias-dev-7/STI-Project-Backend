@@ -11,6 +11,7 @@ import { roleEnum } from "src/common/enums/roleEnum";
 import { ErrorResponse } from "src/common/customResponses/errorResponse";
 import { messagesResponse } from "src/common/messagesResponse";
 import * as moment from "moment";
+import { UpdateUserDto } from "../dto/update-user.dto";
 
 @Injectable()
 export class UserModel {
@@ -21,7 +22,16 @@ export class UserModel {
         private readonly studentModel: StudentModel
     ){}
 
-    async createUser({ role, password, subject, academicYear, group, ...rest }: CreateUserDto) {
+    async createUser({ 
+        role, 
+        password,
+        subject, 
+        academicYear,
+        group, 
+        fullname, 
+        curseType, 
+        ...rest 
+    }: CreateUserDto) {
         try {
             const professor = [
                 roleEnum.PROFESSOR_AUXILIAR.toString(),
@@ -41,14 +51,21 @@ export class UserModel {
                 if (!group) throw ErrorResponse.build({
                     message: messagesResponse.groupNeeded
                 });
-            }
 
+                if(!curseType) throw ErrorResponse.build({
+                    message: messagesResponse.curseTypeNeeded
+                });
+            }
+            const aux = fullname.toLowerCase().split(' ');
+            let username = aux[0] + aux[1].charAt(0) + aux[2].charAt(0);
 
             const hashedPassword = this.utilsService.hashPassword(password);
             const user = this.userRepository.create({
                 role,
                 createAt: moment().valueOf(),
                 password: hashedPassword,
+                fullname,
+                username,
                 ...rest
             });
 
@@ -57,7 +74,7 @@ export class UserModel {
             if (professor) {
                 await this.professorModel.createProfessor({ subject }, user);
             } else if (estudiante)
-                await this.studentModel.createStudent({ academicYear, group }, user);
+                await this.studentModel.createStudent({ academicYear, group, curseType }, user);
 
             return true;
         } catch (error) {
@@ -117,6 +134,18 @@ export class UserModel {
             return true;
         } catch (error) {
             this.handleException('deleteUserbyId', error);
+        }
+    }
+
+    async updateUser(
+        id: number,
+        updateUserDto: UpdateUserDto
+    ){
+        try {
+            //student 
+            //professor
+        } catch (error) {
+            this.handleException('update user', error);
         }
     }
 

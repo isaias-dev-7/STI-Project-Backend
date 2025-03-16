@@ -19,7 +19,7 @@ export class UserService {
   ){}
 
   async create(
-    {username, email, ...rest}: CreateUserDto,
+    {email, ...rest}: CreateUserDto,
   ): Promise <MyResponse>{
     try {
       let exists = await this.userModel.existUserByEmail(email);
@@ -29,14 +29,7 @@ export class UserService {
         });
       }
 
-      exists = await this.userModel.existUserByUsername(username);
-      if(exists){
-        throw ErrorResponse.build({
-          message: messagesResponse.usernameAlreadyExist
-        });
-      }
-
-      await this.userModel.createUser({username, email, ...rest});
+      await this.userModel.createUser({email, ...rest});
       
       return SuccessResponse.build({
         message: messagesResponse.userCreated,
@@ -70,8 +63,15 @@ export class UserService {
     }
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<MyResponse> {
+    try {
+      await this.userModel.updateUser(id, updateUserDto);
+      return SuccessResponse.build({
+        message: messagesResponse.userUpdated
+      });
+    } catch (error) {
+      this.handleException(error);
+    }
   }
 
   async remove(

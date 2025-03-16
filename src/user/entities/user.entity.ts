@@ -1,3 +1,4 @@
+import { facultadEnum } from "src/common/enums/facultadEnum";
 import { roleEnum } from "src/common/enums/roleEnum";
 import { Professor } from "src/professor/entities/professor.entity";
 import { Student } from "src/student/entities/student.entity";
@@ -25,6 +26,9 @@ export class User {
 
     @Column({type: 'enum', enum: roleEnum, nullable: false})
     role: string;
+
+    @Column({type: 'enum', enum: facultadEnum, nullable: false})
+    facultad: string;
 
     @Column({ type: 'boolean', default: false, select: false})
     active: boolean;
