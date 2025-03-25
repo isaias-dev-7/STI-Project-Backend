@@ -10,6 +10,7 @@ import { StudentModule } from './student/student.module';
 import { Student } from './student/entities/student.entity';
 import { ProfessorModule } from './professor/professor.module';
 import { Professor } from './professor/entities/professor.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { Professor } from './professor/entities/professor.entity';
     CommonModule,
     UtilsModule,
     StudentModule,
-    ProfessorModule
+    ProfessorModule,
+    AuthModule
   ],
   controllers: [],
   providers: [],

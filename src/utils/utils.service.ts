@@ -5,6 +5,7 @@ import { Response } from "express";
 import { ErrorResponse } from "src/common/customResponses/errorResponse";
 import { MyResponse } from "src/common/customResponses/response";
 import { User } from "src/user/entities/user.entity";
+import { IPayload } from "src/auth/interfaces/payload";
 
 @Injectable()
 export class UtilsService {
@@ -19,7 +20,7 @@ export class UtilsService {
         return bcryptjs.compareSync(password, hashPassword);
       }
     
-      generateToken(key: any, expire: boolean) {
+      generateToken(key: IPayload, expire: boolean) {
         let token: string;
     
         if (expire) {

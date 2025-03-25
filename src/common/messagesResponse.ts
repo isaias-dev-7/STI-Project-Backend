@@ -1,5 +1,5 @@
 export const messagesResponse = {
-    usernameAlreadyExist: 'El nombre de usuario ya existe',
+    userAlreadyExist: 'El usuario ya esta registrado',
     emailAlreadyExist: 'El correo ya existe',
     userDeleted: 'Usuario eliminado correctamente',
     userCreated: 'Usuario creado de manera exitosa',
@@ -8,5 +8,6 @@ export const messagesResponse = {
     academicYearNeeded: 'Es necesario el año académico',
     userNotFound: 'Usuario no encontrado',
     userUpdated: 'Usuario actualizado',
-    curseTypeNeeded: 'Es necesario el tipo de curso'
+    curseTypeNeeded: 'Es necesario el tipo de curso',
+    incorrectCredentials: 'Los credenciales son incorrectos'
 }

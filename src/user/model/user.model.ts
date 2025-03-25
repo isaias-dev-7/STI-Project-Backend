@@ -57,7 +57,15 @@ export class UserModel {
                 });
             }
             const aux = fullname.toLowerCase().split(' ');
-            let username = aux[0] + aux[1].charAt(0) + aux[2].charAt(0);
+
+            let username = (aux.length === 3) ? 
+                aux[0] + aux[1].charAt(0) + aux[2].charAt(0)
+                : 
+                aux[0] + aux[1].charAt(0) + aux[2].charAt(0) + aux[3].charAt(0);
+
+            if(await this.existUserByUsername(username)) throw ErrorResponse.build({
+                message: messagesResponse.userAlreadyExist
+            })
 
             const hashedPassword = this.utilsService.hashPassword(password);
             const user = this.userRepository.create({
@@ -69,14 +77,14 @@ export class UserModel {
                 ...rest
             });
 
-            await this.userRepository.save(user);
+           const userDb = await this.userRepository.save(user);
 
             if (professor) {
                 await this.professorModel.createProfessor({ subject }, user);
             } else if (estudiante)
                 await this.studentModel.createStudent({ academicYear, group, curseType }, user);
 
-            return true;
+            return userDb;
         } catch (error) {
             this.handleException('createUser', error);
         }
@@ -86,12 +94,30 @@ export class UserModel {
         try {
             const userDb = await this.userRepository.findOneBy({id});
             if(!userDb) throw ErrorResponse.build({
+                code: 404,
                 message: messagesResponse.userNotFound
             });
         
             return this.utilsService.cleanDataUser(userDb);
         } catch (error) {
             this.handleException('getUserById', error);
+        }
+    }
+
+    async getUserByUsername(username: string){
+        try {
+            const userDb = await this.userRepository.findOne({
+                where: { username },
+                select: {password: true}
+            });
+            if(!userDb) throw ErrorResponse.build({
+                code: 404,
+                message: messagesResponse.userNotFound
+            })
+
+            return userDb;
+        } catch (error) {
+            this.handleException('getUserByUsername', error);
         }
     }
 

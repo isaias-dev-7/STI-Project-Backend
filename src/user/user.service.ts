@@ -29,10 +29,11 @@ export class UserService {
         });
       }
 
-      await this.userModel.createUser({email, ...rest});
+      const { username } = await this.userModel.createUser({email, ...rest});
       
       return SuccessResponse.build({
         message: messagesResponse.userCreated,
+        data: { username }
       });
     } catch (error) {
       this.handleException(error);

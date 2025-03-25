@@ -47,7 +47,7 @@ Content-Type: application/json
 
 ###
 #Get all user with pagination 
-GET {{baseUrl}}/user?limit=2&page=1 HTTP/1.1
+GET {{baseUrl}}/user HTTP/1.1
 
 ###
 #Get user by id
@@ -60,4 +60,14 @@ Content-Type: application/json
 
 ###
 #Delete user by id
-DELETE {{baseUrl}}/user/4 HTTP/1.1
+DELETE {{baseUrl}}/user/17 HTTP/1.1
+
+### 
+#login
+POST {{baseUrl}}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "isaiaseot",
+    "password": "admin123"
+}

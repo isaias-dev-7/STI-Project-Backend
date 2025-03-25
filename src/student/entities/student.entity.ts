@@ -16,6 +16,9 @@ export class Student {
     @Column({ type: 'numeric', nullable: false})
     academicYear: number;
 
+    @Column({ type: 'varchar', length: 225}) 
+    learningStyle: string;
+
    @ManyToOne(
     () => User,
     user => user.student,
