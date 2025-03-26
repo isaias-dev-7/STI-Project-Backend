@@ -9,5 +9,7 @@ export const messagesResponse = {
     userNotFound: 'Usuario no encontrado',
     userUpdated: 'Usuario actualizado',
     curseTypeNeeded: 'Es necesario el tipo de curso',
-    incorrectCredentials: 'Los credenciales son incorrectos'
+    incorrectCredentials: 'Los credenciales son incorrectos',
+    userInactive: 'El usuario no esta activo hablar con el admin',
+    userNotFoundOnRequest: 'Usuario no encontrado en la request'
 }

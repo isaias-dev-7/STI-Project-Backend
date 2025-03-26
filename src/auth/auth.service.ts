@@ -6,24 +6,34 @@ import { MyResponse } from 'src/common/customResponses/response';
 import { ErrorResponse } from 'src/common/customResponses/errorResponse';
 import { messagesResponse } from 'src/common/messagesResponse';
 import { SuccessResponse } from 'src/common/customResponses/successResponse';
+import { JwtService } from '@nestjs/jwt';
+import { IPayload } from './interfaces/payload';
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly userModel: UserModel,
-        private readonly utilsService: UtilsService
+        private readonly utilsService: UtilsService,
+        private readonly jwtService: JwtService
     ){}
 
     async login({ username, password }: LoginDto): Promise<MyResponse>{
         try {
             const userDb = await this.userModel.getUserByUsername(username);
+            console.log(userDb.active);
+            if(!userDb.active) 
+                throw ErrorResponse.build({
+                  code: 401,
+                  message: messagesResponse.userInactive
+            })
+
             if (!this.utilsService.verifyPassword(password, userDb.password)) 
                 throw ErrorResponse.build({
                   code: 401,
                   message: messagesResponse.incorrectCredentials
                 });
               
-            const token = this.utilsService.generateToken({ email: userDb.email }, true);
+            const token = this.generateToken({email: userDb.email});
 
             return SuccessResponse.build({ data: { token } })
         } catch (error) {
@@ -31,7 +41,11 @@ export class AuthService {
         }
     }
 
-   private handleException(description: string, error: any, res?: Response) {
+    private generateToken(payload: IPayload){
+        return this.jwtService.sign(payload);
+    }
+
+   private handleException(description: string, error: any) {
         console.error(`[ERROR] - ${description} - auth.service.ts`);
         console.error({ error });
         throw this.utilsService.handleError(error);

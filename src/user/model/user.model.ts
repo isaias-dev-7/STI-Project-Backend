@@ -74,6 +74,7 @@ export class UserModel {
                 password: hashedPassword,
                 fullname,
                 username,
+                active: (role === roleEnum.ADMIN),
                 ...rest
             });
 
@@ -108,16 +109,33 @@ export class UserModel {
         try {
             const userDb = await this.userRepository.findOne({
                 where: { username },
-                select: {password: true}
+                select: {password: true, active: true}
             });
             if(!userDb) throw ErrorResponse.build({
                 code: 404,
-                message: messagesResponse.userNotFound
+                message: messagesResponse.incorrectCredentials
             })
 
             return userDb;
         } catch (error) {
             this.handleException('getUserByUsername', error);
+        }
+    }
+
+    async getUserByEmail(email: string){
+        try {
+            const userDb = await this.userRepository.findOne({
+                where: { email }
+            });
+
+            if(!userDb) throw ErrorResponse.build({
+                code: 404,
+                message: messagesResponse.userNotFound
+            })
+            
+            return userDb;
+        } catch (error) {
+            this.handleException('getUserByEmail', error);
         }
     }
 

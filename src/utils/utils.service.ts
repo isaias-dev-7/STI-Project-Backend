@@ -1,11 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import * as jwt from 'jsonwebtoken';
 import * as bcryptjs from 'bcryptjs';
 import { Response } from "express";
 import { ErrorResponse } from "src/common/customResponses/errorResponse";
 import { MyResponse } from "src/common/customResponses/response";
 import { User } from "src/user/entities/user.entity";
-import { IPayload } from "src/auth/interfaces/payload";
 
 @Injectable()
 export class UtilsService {
@@ -20,34 +18,8 @@ export class UtilsService {
         return bcryptjs.compareSync(password, hashPassword);
       }
     
-      generateToken(key: IPayload, expire: boolean) {
-        let token: string;
-    
-        if (expire) {
-          token = jwt.sign({ key }, process.env.JWT_SECRET, {
-            expiresIn: '30m',
-          });
-        } else {
-          token = jwt.sign({ key }, process.env.JWT_SECRET);
-        }
-    
-        return token;
-      }
-    
-      verifyToken(token: string) {
-        try {
-          const payload = jwt.verify(token, process.env.JWT_SECRET);
-          return payload['key'];
-        } catch (error) {
-          console.log(`[ERROR] - verifyToken - utils.service.ts`);
-          console.log({ error });
-          throw error;
-        }
-      }
-
       cleanDataUser(user: User) {
         delete user.password;
-        delete user.active;
         return user;
       }
 

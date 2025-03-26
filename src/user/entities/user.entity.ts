@@ -30,7 +30,7 @@ export class User {
     @Column({type: 'enum', enum: facultadEnum, nullable: false})
     facultad: string;
 
-    @Column({ type: 'boolean', default: false, select: false})
+    @Column({ type: 'boolean', default: true})
     active: boolean;
 
     @OneToMany(
