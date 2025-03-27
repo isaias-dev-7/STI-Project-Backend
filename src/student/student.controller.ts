@@ -1,8 +1,29 @@
-import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { StudentService } from './student.service';
-import { UpdateStudentDto } from './dto/update-student.dto';
+import { GetUser } from 'src/auth/decorators/getUser.decorator';
+import { User } from 'src/user/entities/user.entity';
+import { LearningStyleDto } from './dto/learningStyle.dto';
+import { Response } from 'express';
+import { UtilsService } from 'src/utils/utils.service';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { roleEnum } from 'src/common/enums/roleEnum';
 
 @Controller('student')
 export class StudentController {
-  constructor(private readonly studentService: StudentService) {}
+  constructor(
+    private readonly studentService: StudentService,
+    private readonly utilsService: UtilsService
+  ) {}
+
+  @Post('/setLearningStyle')
+  @Auth(roleEnum.ESTUDIANTE)
+  learningStyle(
+    @GetUser() user: User,
+    @Body() { learningStyle }: LearningStyleDto,
+    @Res() res: Response
+  ){
+    this.utilsService.handleResponse(res, async () =>
+      this.studentService.learningStyleStudent(user, learningStyle)
+    );
+  }
 }

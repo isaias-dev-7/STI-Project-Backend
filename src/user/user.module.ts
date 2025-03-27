@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -13,7 +13,7 @@ import { StudentModule } from 'src/student/student.module';
     TypeOrmModule.forFeature([User]),
     UtilsModule,
     ProfessorModule,
-    StudentModule
+    forwardRef(() => StudentModule)
   ],
   controllers: [UserController],
   providers: [

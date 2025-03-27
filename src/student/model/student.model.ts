@@ -22,6 +22,22 @@ export class StudentModel {
         }
     }
 
+    async setLearningStyle(
+        user: User,
+        learningStyle: string
+    ) {
+        try {
+            let studentDb = await this.studentRepository.findOne({
+                where: { user }
+            });
+            studentDb.learningStyle = learningStyle;
+            await this.studentRepository.save(studentDb);
+            return true;
+        } catch (error) {
+            this.handleException('setLearnigStyle', error);
+        }
+    }
+
     private handleException(description: string, error: any) {
         console.error(`[ERROR] - ${description} - /student/model/student.model.ts`);
         console.error({error});

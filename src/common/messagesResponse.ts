@@ -11,5 +11,7 @@ export const messagesResponse = {
     curseTypeNeeded: 'Es necesario el tipo de curso',
     incorrectCredentials: 'Los credenciales son incorrectos',
     userInactive: 'El usuario no esta activo hablar con el admin',
-    userNotFoundOnRequest: 'Usuario no encontrado en la request'
+    userNotFoundOnRequest: 'Usuario no encontrado en la request',
+    learningStyleAssociated: 'Estilo de aprendizage asociado con éxito',
+    studentNotFound: ''
 }

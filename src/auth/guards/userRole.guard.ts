@@ -23,7 +23,6 @@ export class UserRoleGuard implements CanActivate {
         if (!validRoles || validRoles.length === 0) return true;
         const req = context.switchToHttp().getRequest();
         const user: User = req.user;
-
         if (!user) throw new BadRequestException('user not found');
         if (validRoles.includes(user.role)) return true;
 
