@@ -13,7 +13,7 @@ import { StudentModule } from 'src/student/student.module';
     TypeOrmModule.forFeature([User]),
     UtilsModule,
     ProfessorModule,
-    forwardRef(() => StudentModule)
+    StudentModule
   ],
   controllers: [UserController],
   providers: [
