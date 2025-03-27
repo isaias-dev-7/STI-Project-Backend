@@ -1,5 +1,4 @@
-import { createParamDecorator, ExecutionContext} from "@nestjs/common";
-import { ErrorResponse } from "src/common/customResponses/errorResponse";
+import { createParamDecorator, ExecutionContext, InternalServerErrorException} from "@nestjs/common";
 import { messagesResponse } from "src/common/messagesResponse";
 
 export const GetUser = createParamDecorator(
@@ -7,10 +6,7 @@ export const GetUser = createParamDecorator(
         const req = ctx.switchToHttp().getRequest();
         const user = req.user;
 
-        if(!user) throw ErrorResponse.build({
-            code: 500,
-            message: messagesResponse.userNotFoundOnRequest
-        })
+        if(!user) throw new InternalServerErrorException(messagesResponse.userNotFoundOnRequest);
         return (!data) ? user : user[data];
     }
 );

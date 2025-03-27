@@ -13,5 +13,4 @@ export const messagesResponse = {
     userInactive: 'El usuario no esta activo hablar con el admin',
     userNotFoundOnRequest: 'Usuario no encontrado en la request',
     learningStyleAssociated: 'Estilo de aprendizage asociado con éxito',
-    studentNotFound: ''
 }
