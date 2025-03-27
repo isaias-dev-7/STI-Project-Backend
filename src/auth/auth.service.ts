@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { UserModel } from 'src/user/model/user.model';
 import { UtilsService } from 'src/utils/utils.service';
 import { LoginDto } from './dto/login.dto';
@@ -11,8 +11,8 @@ import { IPayload } from './interfaces/payload';
 
 @Injectable()
 export class AuthService {
-    constructor(
-        private readonly userModel: UserModel,
+    constructor(  
+        @Inject(forwardRef(() => UserModel)) private readonly userModel: UserModel,
         private readonly utilsService: UtilsService,
         private readonly jwtService: JwtService
     ){}
@@ -20,7 +20,6 @@ export class AuthService {
     async login({ username, password }: LoginDto): Promise<MyResponse>{
         try {
             const userDb = await this.userModel.getUserByUsername(username);
-            console.log(userDb.active);
             if(!userDb.active) 
                 throw ErrorResponse.build({
                   code: 401,
