@@ -12,8 +12,7 @@ import { IPayload } from './interfaces/payload';
 @Injectable()
 export class AuthService {
     constructor(  
-        @Inject(forwardRef(() => UserModel))
-        private readonly userModel: UserModel,
+        @Inject(forwardRef(() => UserModel)) private readonly userModel: UserModel,
         private readonly utilsService: UtilsService,
         private readonly jwtService: JwtService
     ){}
