@@ -1,4 +1,4 @@
-import { IsDefined, IsEmail, IsString, Length } from "class-validator";
+import { IsDefined, IsString, Length } from "class-validator";
 
 export class LoginDto {
     @IsDefined()

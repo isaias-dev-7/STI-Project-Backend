@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserModel } from './model/user.model';
-import { Response } from 'express';
 import { PaginDto } from 'src/common/dto/paginDto';
 import { messagesResponse } from 'src/common/messagesResponse';
 import { ErrorResponse } from 'src/common/customResponses/errorResponse';

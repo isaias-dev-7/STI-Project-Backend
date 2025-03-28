@@ -34,7 +34,13 @@ export class AuthService {
               
             const token = this.generateToken({email: userDb.email});
 
-            return SuccessResponse.build({ data: { token } })
+            return SuccessResponse.build({
+                data: {
+                    token,
+                    username: userDb.username,
+                    role: userDb.role
+                }
+            });
         } catch (error) {
             this.handleException('login', error);
         }

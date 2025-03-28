@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateStudentDto } from './dto/update-student.dto';
 import { StudentModel } from './model/student.model';
 import { UtilsService } from 'src/utils/utils.service';
 import { User } from 'src/user/entities/user.entity';

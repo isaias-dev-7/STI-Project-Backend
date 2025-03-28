@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { User } from "../entities/user.entity";
@@ -109,7 +109,13 @@ export class UserModel {
         try {
             const userDb = await this.userRepository.findOne({
                 where: { username },
-                select: {password: true, active: true, email: true}
+                select: {
+                    password: true,
+                    active: true,
+                    email: true,
+                    role: true,
+                    username: true
+                }
             });
             if(!userDb) throw ErrorResponse.build({
                 code: 404,
