@@ -1,7 +1,7 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Student } from "../entities/student.entity";
-import { CreateStudentDto } from "../dto/create-student.dto";
+import { CreateStudentDto } from "../dto";
 import { User } from "src/user/entities/user.entity";
 
 export class StudentModel {

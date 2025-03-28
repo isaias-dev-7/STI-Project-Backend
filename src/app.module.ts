@@ -11,6 +11,7 @@ import { Student } from './student/entities/student.entity';
 import { ProfessorModule } from './professor/professor.module';
 import { Professor } from './professor/entities/professor.entity';
 import { AuthModule } from './auth/auth.module';
+import { SubjectModule } from './subject/subject.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { AuthModule } from './auth/auth.module';
     UtilsModule,
     StudentModule,
     ProfessorModule,
-    AuthModule
+    AuthModule,
+    SubjectModule
   ],
   controllers: [],
   providers: [],

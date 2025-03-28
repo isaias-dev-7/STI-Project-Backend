@@ -19,5 +19,4 @@ export class CreateStudentDto {
         curseEnum.POR_ENCUENTRO.toString()
     ])
     curseType: string;
-    //TODO relations with user
 }
