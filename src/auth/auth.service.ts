@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { UserModel } from 'src/user/model/user.model';
 import { UtilsService } from 'src/utils/utils.service';
 import { LoginDto } from './dto/login.dto';
@@ -8,6 +8,8 @@ import { messagesResponse } from 'src/common/messagesResponse';
 import { SuccessResponse } from 'src/common/customResponses/successResponse';
 import { JwtService } from '@nestjs/jwt';
 import { IPayload } from './interfaces/payload';
+import { roleEnum } from 'src/common/enums/roleEnum';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -17,34 +19,73 @@ export class AuthService {
         private readonly jwtService: JwtService
     ){}
 
-    async login({ username, password }: LoginDto): Promise<MyResponse>{
+    async login({ username, password }: LoginDto): Promise<MyResponse> {
         try {
-            const userDb = await this.userModel.getUserByUsername(username);
-            if(!userDb.active) 
-                throw ErrorResponse.build({
-                  code: 401,
-                  message: messagesResponse.userInactive
-            })
+            let firtsTime;
+            const [{
+                password: passwordDb,
+                username: usernameDb,
+                active,
+                role,
+                email,
+                student
+            }] = await this.userModel.getUserByUsername(username);
+            if(student) firtsTime  = student.firtsTime;
 
-            if (!this.utilsService.verifyPassword(password, userDb.password)) 
+            if (!active)
                 throw ErrorResponse.build({
-                  code: 401,
-                  message: messagesResponse.incorrectCredentials
+                    code: 401,
+                    message: messagesResponse.userInactive
+                })
+
+            if (!this.utilsService.verifyPassword(password, passwordDb))
+                throw ErrorResponse.build({
+                    code: 401,
+                    message: messagesResponse.incorrectCredentials
                 });
-              
-            const token = this.generateToken({email: userDb.email});
+
+            const token = this.generateToken({ email });
 
             return SuccessResponse.build({
                 data: {
+                    username: usernameDb,
                     token,
-                    username: userDb.username,
-                    role: userDb.role
+                    role,
+                    firtsTime
                 }
             });
         } catch (error) {
             this.handleException('login', error);
         }
     }
+
+    async onModuleInit() {
+        try {
+          const existsUser = await this.userModel.existUserByEmail(
+            process.env.EMAIL_ADMIN,
+          );
+    
+          if (!existsUser) {
+            const savedUser: User = await this.userModel.createUser(
+              {
+                email: process.env.EMAIL_ADMIN,
+                fullname: process.env.NAME_ADMIN,
+                role: roleEnum.ADMIN,
+                password: process.env.PASS_ADMIN,
+              }
+            );
+            await this.userModel.activateUser(savedUser.email);
+            console.log(
+              `El usuario ${process.env.EMAIL_ADMIN} ha sido creado con éxito`,
+            );
+          } else {
+            console.log(`El usuario ${process.env.EMAIL_ADMIN} ya existe`);
+          }
+        } catch (error) {
+          console.log(`[ERROR] - onModuleInit - auth.service.ts`);
+          console.error({ error });
+        }
+      } 
 
     private generateToken(payload: IPayload){
         return this.jwtService.sign(payload);

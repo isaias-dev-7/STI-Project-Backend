@@ -1,6 +1,6 @@
 import { curseEnum } from "src/common/enums/curseEnum";
 import { User } from "src/user/entities/user.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Student {
@@ -19,10 +19,13 @@ export class Student {
     @Column({ type: 'varchar', length: 225}) 
     learningStyle: string;
 
-   @ManyToOne(
+    @Column({ type: 'boolean', nullable: false, default: true })
+    firtsTime: boolean;
+
+   @OneToOne(
     () => User,
     user => user.student,
-    { onDelete: 'CASCADE'}
+    { onDelete: 'CASCADE' }
    )
    user: User;
 }

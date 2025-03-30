@@ -4,10 +4,12 @@ import { ProfessorController } from './professor.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Professor } from './entities/professor.entity';
 import { ProfessorModel } from './model/professor.model';
+import { SubjectModule } from 'src/subject/subject.module';
 
 @Module({
   imports:[
-    TypeOrmModule.forFeature([Professor])
+    TypeOrmModule.forFeature([Professor]),
+    SubjectModule
   ],
   controllers: [ProfessorController],
   providers: [
