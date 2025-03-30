@@ -4,19 +4,22 @@ import { Professor } from "../entities/professor.entity";
 import { Repository } from "typeorm";
 import { CreateProfessorDto } from "../dto/create-professor.dto";
 import { User } from "src/user/entities/user.entity";
+import { SubjectModel } from "src/subject/model/subject.model";
 
 @Injectable()
 export class ProfessorModel {
     constructor(
-        @InjectRepository(Professor) private readonly professorRepository: Repository<Professor>
+        @InjectRepository(Professor) private readonly professorRepository: Repository<Professor>,
+        private readonly subjectModel: SubjectModel,
     ){}
 
     async createProfessor(
-        {...rest}: CreateProfessorDto,
+        {subject, ...rest}: CreateProfessorDto,
         user: User
     ){
         try {
-            const professor = this.professorRepository.create({user, ...rest});
+            const subjectDb = await this.subjectModel.getSubjectById(subject);
+            const professor = this.professorRepository.create({user, subject: subjectDb, ...rest});
             await this.professorRepository.save(professor);
             return true;
         } catch (error) {

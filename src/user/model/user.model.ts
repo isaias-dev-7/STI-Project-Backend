@@ -12,6 +12,7 @@ import { ErrorResponse } from "src/common/customResponses/errorResponse";
 import { messagesResponse } from "src/common/messagesResponse";
 import * as moment from "moment";
 import { UpdateUserDto } from "../dto/update-user.dto";
+import { Student } from "src/student/entities/student.entity";
 
 @Injectable()
 export class UserModel {
@@ -30,6 +31,8 @@ export class UserModel {
         group, 
         fullname, 
         curseType, 
+        scientificDegree,
+        teachingDegree,
         ...rest 
     }: CreateUserDto) {
         try {
@@ -74,14 +77,13 @@ export class UserModel {
                 password: hashedPassword,
                 fullname,
                 username,
-                active: (role === roleEnum.ADMIN),
                 ...rest
             });
 
            const userDb = await this.userRepository.save(user);
 
             if (professor) {
-                await this.professorModel.createProfessor({ subject }, user);
+                await this.professorModel.createProfessor({ subject, scientificDegree, teachingDegree }, user);
             } else if (estudiante)
                 await this.studentModel.createStudent({ academicYear, group, curseType }, user);
 
@@ -107,15 +109,21 @@ export class UserModel {
 
     async getUserByUsername(username: string){
         try {
-            const userDb = await this.userRepository.findOne({
+            const userDb = await this.userRepository.find({
                 where: { username },
+                relations: {
+                    student: true
+                },
                 select: {
-                    password: true,
-                    active: true,
-                    email: true,
                     role: true,
-                    username: true
-                }
+                    password: true,
+                    username: true,
+                    email: true,
+                    active: true,
+                    student: {
+                        firtsTime: true
+                    }
+                },
             });
             if(!userDb) throw ErrorResponse.build({
                 code: 404,
@@ -196,6 +204,17 @@ export class UserModel {
             //professor
         } catch (error) {
             this.handleException('update user', error);
+        }
+    }
+
+    async activateUser(email: string){
+        try {
+            let userDb = await this.getUserByEmail(email);
+            userDb.active = true;
+            await this.userRepository.save(userDb);
+            return true;
+        } catch (error) {
+            this.handleException('activateUser', error);
         }
     }
 

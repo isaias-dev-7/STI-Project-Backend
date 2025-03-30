@@ -1,8 +1,10 @@
+import { Type } from "class-transformer";
 import { IsDefined, IsEmail, IsIn, IsInt, IsOptional, IsString, Length, Max, Min } from "class-validator";
 import { curseEnum } from "src/common/enums/curseEnum";
 import { facultadEnum } from "src/common/enums/facultadEnum";
 import { roleEnum } from "src/common/enums/roleEnum";
-import { subjectEnum } from "src/common/enums/subjectEnum";
+import { ScientificDegreeEnum } from "src/common/enums/scientificDegreeEnum";
+import { TeachingDegreeEnum } from "src/common/enums/teachingDegreeEnum";
 
 export class CreateUserDto {
     @IsDefined()
@@ -28,7 +30,7 @@ export class CreateUserDto {
     ])
     role: string;
 
-    @IsDefined()
+    @IsOptional()
     @IsString()
     @IsIn([
        facultadEnum.FACULTAD1.toString(),
@@ -38,7 +40,7 @@ export class CreateUserDto {
        facultadEnum.FACULTAD5.toString(),
        facultadEnum.FACULTAD6.toString()
     ])
-    facultad: string;
+    facultad?: string;
 
     @IsOptional()
     @IsString()
@@ -60,6 +62,19 @@ export class CreateUserDto {
     curseType?: string;
 
     @IsOptional()
-    @IsIn([subjectEnum.IA.toString()])
-    subject?: string;
+    @Type(() => Number)
+    subject?: number;
+
+    @IsOptional()
+    @IsIn([
+        ScientificDegreeEnum.DrC.toString(), 
+        ScientificDegreeEnum.MsC.toString()
+    ])
+    scientificDegree?: string;
+
+    @IsOptional()
+    @IsIn([
+        TeachingDegreeEnum.ENGINEER.toString()
+    ])
+    teachingDegree?: string;
 }

@@ -1,8 +1,21 @@
-import { IsDefined, IsIn } from "class-validator";
-import { subjectEnum } from "src/common/enums/subjectEnum";
+import { IsDefined, IsIn, IsOptional } from "class-validator";
+import { ScientificDegreeEnum } from "src/common/enums/scientificDegreeEnum";
+import { TeachingDegreeEnum } from "src/common/enums/teachingDegreeEnum";
 
 export class CreateProfessorDto {
     @IsDefined()
-    @IsIn([subjectEnum.IA.toString()])
-    subject: string;
+    subject: number;
+
+    @IsOptional()
+    @IsIn([
+        ScientificDegreeEnum.DrC.toString(),
+        ScientificDegreeEnum.MsC.toString()
+    ])
+    scientificDegree?: string;
+
+    @IsOptional()
+    @IsIn([
+        TeachingDegreeEnum.ENGINEER.toString()
+    ])
+    teachingDegree?: string;
 }

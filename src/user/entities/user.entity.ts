@@ -2,7 +2,7 @@ import { facultadEnum } from "src/common/enums/facultadEnum";
 import { roleEnum } from "src/common/enums/roleEnum";
 import { Professor } from "src/professor/entities/professor.entity";
 import { Student } from "src/student/entities/student.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -27,21 +27,23 @@ export class User {
     @Column({type: 'enum', enum: roleEnum, nullable: false})
     role: string;
 
-    @Column({type: 'enum', enum: facultadEnum, nullable: false})
+    @Column({type: 'enum', enum: facultadEnum })
     facultad: string;
 
     @Column({ type: 'boolean', default: true})
     active: boolean;
 
-    @OneToMany(
+    @OneToOne(
         () => Professor,
         professor => professor.user
     )
-    professor: Professor[];
+    @JoinColumn()
+    professor: Professor;
 
-    @OneToMany(
+    @OneToOne(
         () => Student,
         student => student.user
     )
-    student: Student[];
+    @JoinColumn()
+    student: Student;
 }

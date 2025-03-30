@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { CommonModule } from './common/common.module';
@@ -12,10 +11,16 @@ import { ProfessorModule } from './professor/professor.module';
 import { Professor } from './professor/entities/professor.entity';
 import { AuthModule } from './auth/auth.module';
 import { SubjectModule } from './subject/subject.module';
+import { Subject } from './subject/entities/subject.entity';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../uploads'),
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
@@ -26,7 +31,8 @@ import { SubjectModule } from './subject/subject.module';
       entities: [
         User,
         Student,
-        Professor
+        Professor,
+        Subject
       ],
       synchronize: true
     }),
