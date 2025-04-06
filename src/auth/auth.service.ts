@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { IPayload } from './interfaces/payload';
 import { roleEnum } from 'src/common/enums/roleEnum';
 import { User } from 'src/user/entities/user.entity';
+import { HttpService } from 'src/http-service/httpService.service';
 
 @Injectable()
 export class AuthService {

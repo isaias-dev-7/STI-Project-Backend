@@ -14,6 +14,8 @@ import { SubjectModule } from './subject/subject.module';
 import { Subject } from './subject/entities/subject.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { HttpServiceModule } from './http-service/http-service.module';
+import { ChatbotModule } from './chatbot/chatbot.module';
 
 @Module({
   imports: [
@@ -42,7 +44,9 @@ import { join } from 'path';
     StudentModule,
     ProfessorModule,
     AuthModule,
-    SubjectModule
+    SubjectModule,
+    HttpServiceModule,
+    ChatbotModule
   ],
   controllers: [],
   providers: [],
