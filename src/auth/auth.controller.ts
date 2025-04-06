@@ -4,6 +4,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { UtilsService } from 'src/utils/utils.service';
 import { Response } from 'express';
 import { LoginDto } from './dto/login.dto';
+import { ISendMessage } from 'src/common/interfaces/sendMessage.interface';
 
 @ApiTags('Auth')
 @Controller('auth')

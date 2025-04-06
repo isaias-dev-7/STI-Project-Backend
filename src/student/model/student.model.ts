@@ -31,6 +31,7 @@ export class StudentModel {
                 where: { user }
             });
             studentDb.learningStyle = learningStyle;
+            studentDb.firtsTime = false;
             await this.studentRepository.save(studentDb);
             return true;
         } catch (error) {
