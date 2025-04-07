@@ -8,7 +8,7 @@ export class Student {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'varchar', length: 6, nullable: false })
+    @Column({ type: 'varchar', length: 6, nullable: true })
     group: string;
 
     @Column({ type:'enum', enum: curseEnum , nullable: false })
@@ -26,7 +26,7 @@ export class Student {
    @OneToOne(
     () => User,
     user => user.student,
-    { onDelete: 'CASCADE' }
+    { onDelete: 'CASCADE'}
    )
    user: User;
 

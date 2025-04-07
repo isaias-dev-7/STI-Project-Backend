@@ -30,12 +30,12 @@ export class User {
     @Column({type: 'enum', enum: facultadEnum })
     facultad: string;
 
-    @Column({ type: 'boolean', default: true})
+    @Column({ type: 'boolean', default: false})
     active: boolean;
 
     @OneToOne(
         () => Professor,
-        professor => professor.user
+        professor => professor.user,
     )
     @JoinColumn()
     professor: Professor;

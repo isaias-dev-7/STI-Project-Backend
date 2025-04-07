@@ -10,7 +10,7 @@ export class Subject {
     subjectName: string;
 
     @Column({ type: 'varchar', length: 225, default: null, select: false })
-    urlImage: string;
+    urlImage?: string;
 
     @OneToMany(
         () => Professor,
