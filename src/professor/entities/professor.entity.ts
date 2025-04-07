@@ -24,7 +24,8 @@ export class Professor {
 
     @ManyToOne(
         () => Subject,
-        subject => subject.professor
+        subject => subject.professor,
+        { nullable: true }
     )
     subject: Subject;
 }

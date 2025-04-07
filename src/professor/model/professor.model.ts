@@ -1,16 +1,17 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Professor } from "../entities/professor.entity";
 import { Repository } from "typeorm";
 import { CreateProfessorDto } from "../dto/create-professor.dto";
 import { User } from "src/user/entities/user.entity";
 import { SubjectModel } from "src/subject/model/subject.model";
+import { Subject } from "src/subject/entities/subject.entity";
 
 @Injectable()
 export class ProfessorModel {
     constructor(
         @InjectRepository(Professor) private readonly professorRepository: Repository<Professor>,
-        private readonly subjectModel: SubjectModel,
+        @Inject(forwardRef(() => SubjectModel)) private readonly subjectModel: SubjectModel
     ){}
 
     async createProfessor(
@@ -24,6 +25,17 @@ export class ProfessorModel {
             return true;
         } catch (error) {
             this.handleException('createProfessor', error);
+        }
+    }
+
+    async deleteRelationSubject(subject: Subject){
+        try {
+            let professorsDb = await this.professorRepository.find({ where: { subject }});
+            professorsDb.forEach( p => p.subject = null );
+            await this.professorRepository.save(professorsDb);
+            return true;
+        } catch (error) {
+            this.handleException('deleteRelationSubject', error);
         }
     }
 

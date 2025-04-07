@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Subject } from "../entities/subject.entity";
 import { Repository } from "typeorm";
@@ -7,11 +7,14 @@ import { UpdateSubjectDto } from "../dtos/updateSubject.dto";
 import { ErrorResponse } from "src/common/customResponses/errorResponse";
 import { messagesResponse } from "src/common/messagesResponse";
 import * as fs from 'fs-extra';
+import { ProfessorModel } from "src/professor/model/professor.model";
+import { Professor } from "src/professor/entities/professor.entity";
 
 @Injectable()
 export class SubjectModel {
     constructor(
-        @InjectRepository(Subject) private readonly subjectRepository: Repository<Subject>
+        @InjectRepository(Subject) private readonly subjectRepository: Repository<Subject>,
+        @Inject(forwardRef(() => ProfessorModel)) private readonly professorModel: ProfessorModel 
     ){}
 
     async createSubject(
@@ -65,6 +68,7 @@ export class SubjectModel {
             const subjectDb: Subject = await this.subjectRepository.findOne({
                 where: { id },
                 select: {
+                    id: true,
                     urlImage: true,
                 }
             });
@@ -90,9 +94,10 @@ export class SubjectModel {
     async deleteSubjectById(id: number){
         try {
             const subjectDb: Subject = await this.getSubjectById(id);
-            
+
             if(await fs.pathExists(subjectDb.urlImage)) await fs.remove(subjectDb.urlImage);
-            await this.subjectRepository.delete(subjectDb);
+            await this.professorModel.deleteRelationSubject(subjectDb);
+            await this.subjectRepository.delete({ id: subjectDb.id});
             return true;
         } catch (error) {
             this.handleException('deleteSubjectById', error);
