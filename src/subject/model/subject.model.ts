@@ -7,7 +7,6 @@ import { UpdateSubjectDto } from "../dtos/updateSubject.dto";
 import { ErrorResponse } from "src/common/customResponses/errorResponse";
 import { messagesResponse } from "src/common/messagesResponse";
 import * as fs from 'fs-extra';
-import * as fs2 from 'fs';
 
 @Injectable()
 export class SubjectModel {
@@ -37,7 +36,6 @@ export class SubjectModel {
     async getAllSubject(){
         try {
             let subjects = await this.subjectRepository.find();
-            subjects.forEach(s => delete s.urlImage);
             return subjects;
         } catch (error) {
             this.handleException('getAllSubject', error);
@@ -64,7 +62,12 @@ export class SubjectModel {
 
     async getSubjectById(id: number){
         try {
-            const subjectDb: Subject = await this.subjectRepository.findOneBy({id});
+            const subjectDb: Subject = await this.subjectRepository.findOne({
+                where: { id },
+                select: {
+                    urlImage: true,
+                }
+            });
             if(!subjectDb) throw ErrorResponse.build({
                 message: messagesResponse.subjectNotFound
             });
