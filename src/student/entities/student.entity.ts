@@ -35,5 +35,5 @@ export class Student {
     chat => chat.student,
     { nullable: true }
    )
-   chat: Chat[]
+   chat: Chat[];
 }
