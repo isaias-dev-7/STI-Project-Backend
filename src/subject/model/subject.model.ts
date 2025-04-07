@@ -8,7 +8,6 @@ import { ErrorResponse } from "src/common/customResponses/errorResponse";
 import { messagesResponse } from "src/common/messagesResponse";
 import * as fs from 'fs-extra';
 import { ProfessorModel } from "src/professor/model/professor.model";
-import { Professor } from "src/professor/entities/professor.entity";
 
 @Injectable()
 export class SubjectModel {
