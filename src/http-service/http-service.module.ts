@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { HttpService } from './httpService.service';
+import { HttpService } from './http.service';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UtilsModule } from 'src/utils/utils.module';

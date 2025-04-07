@@ -15,7 +15,7 @@ export class HttpService {
     async requestHttp(url: PathAIEnum, body: ISendMessage){
         try {
             const response = await firstValueFrom(
-                this.http.post<string, ISendMessage>(url, body)
+                this.http.post<{ message: string }>(url, body)
             );
             const { data } = response;
 

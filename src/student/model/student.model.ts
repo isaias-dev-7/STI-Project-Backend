@@ -3,7 +3,11 @@ import { Repository } from "typeorm";
 import { Student } from "../entities/student.entity";
 import { CreateStudentDto } from "../dto";
 import { User } from "src/user/entities/user.entity";
+import { Injectable } from "@nestjs/common";
+import { SuccessResponse } from "src/common/customResponses/successResponse";
+import { messagesResponse } from "src/common/messagesResponse";
 
+@Injectable()
 export class StudentModel {
     constructor(
         @InjectRepository(Student) private readonly studentRepository: Repository<Student>
@@ -36,6 +40,19 @@ export class StudentModel {
             return true;
         } catch (error) {
             this.handleException('setLearnigStyle', error);
+        }
+    }
+
+    async getEstudentByUserId(id: number){
+        try {
+             const studentDb = await this.studentRepository.findOneBy({id});
+             if(!studentDb) throw SuccessResponse.build({
+                message: messagesResponse.userNotFound
+             });
+
+             return studentDb;
+        } catch (error) {
+            this.handleException('getEstudianteByUserId', error);
         }
     }
 
