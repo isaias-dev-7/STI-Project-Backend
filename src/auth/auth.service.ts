@@ -11,13 +11,15 @@ import { IPayload } from './interfaces/payload';
 import { roleEnum } from 'src/common/enums/roleEnum';
 import { User } from 'src/user/entities/user.entity';
 import { HttpService } from 'src/http-service/http.service';
+import { SeedService } from 'src/seed/seed.service';
 
 @Injectable()
 export class AuthService {
     constructor(  
         @Inject(forwardRef(() => UserModel)) private readonly userModel: UserModel,
         private readonly utilsService: UtilsService,
-        private readonly jwtService: JwtService
+        private readonly jwtService: JwtService,
+        private readonly seedService: SeedService
     ){}
 
     async login({ username, password }: LoginDto): Promise<MyResponse> {
@@ -62,6 +64,7 @@ export class AuthService {
 
     async onModuleInit() {
         try {
+          await this.seedService.insertData();
           const existsUser = await this.userModel.existUserByEmail(
             process.env.EMAIL_ADMIN,
           );

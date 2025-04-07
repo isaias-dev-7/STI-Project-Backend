@@ -17,6 +17,7 @@ import { join } from 'path';
 import { HttpServiceModule } from './http-service/http-service.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
 import { Chat } from './chatbot/entities/chat.entity';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -48,7 +49,8 @@ import { Chat } from './chatbot/entities/chat.entity';
     AuthModule,
     SubjectModule,
     HttpServiceModule,
-    ChatbotModule
+    ChatbotModule,
+    SeedModule
   ],
   controllers: [],
   providers: [],

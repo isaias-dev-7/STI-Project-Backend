@@ -7,12 +7,14 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwtStrategy';
+import { SeedModule } from 'src/seed/seed.module';
 
 @Module({
     imports: [
       forwardRef(() => UserModule),
       UtilsModule,
       ConfigModule,
+      SeedModule,
       PassportModule.register({ defaultStrategy: 'jwt' }),
       JwtModule.registerAsync({
         imports: [ConfigModule],
