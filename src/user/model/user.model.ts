@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Like, Repository } from "typeorm";
+import { And, Like, Repository } from "typeorm";
 import { User } from "../entities/user.entity";
 import { CreateUserDto } from "../dto/create-user.dto";
 import { PaginDto } from "src/common/dto/paginDto";
@@ -155,16 +155,26 @@ export class UserModel {
 
     async getAllUsersWithPagination({ limit = 10, page = 1 , searchTerm, role }: PaginDto){
         try {
-            let data: User[], total: number;
+            let data: User[], total: number, where: any = [];
+            if(role && searchTerm){
+                where = [
+                    {username: Like(`%${searchTerm}%`), role},
+                    {fullname: Like(`%${searchTerm}%`), role},
+                    {email: Like(`%${searchTerm}%`), role},
+                ];
+            }else if(role){
+                where = { role };
+            }else if(searchTerm){
+                where = [
+                    {username: Like(`%${searchTerm}%`)},
+                    {fullname: Like(`%${searchTerm}%`)},
+                    {email: Like(`%${searchTerm}%`)}
+                ];
+            }
             [data, total] = await this.userRepository.findAndCount({ 
                 skip: (page - 1) * limit,
                 take: limit,
-                where: {
-                    username: Like(`%${ searchTerm }%`),
-                    fullname: Like(`%${ searchTerm }%`),
-                    email: Like(`%${ searchTerm }%`),
-                    role
-                }
+                where
             });
             
             return {data, total, page, limit, totalPages: Math.ceil(total/limit)};
