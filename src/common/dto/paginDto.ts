@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
-import { IsInt, IsOptional, IsString, Min } from "class-validator";
+import { IsIn, IsInt, IsOptional, IsString, Min } from "class-validator";
+import { roleEnum } from "../enums/roleEnum";
 
 export class PaginDto {
     @IsOptional()
@@ -17,4 +18,13 @@ export class PaginDto {
     @IsOptional()
     @IsString()
     searchTerm?: string;
+
+    @IsOptional()
+    @IsIn([
+        roleEnum.ADMIN.toString(),
+        roleEnum.ESTUDIANTE.toString(),
+        roleEnum.PROFESSOR_AUXILIAR.toString(),
+        roleEnum.PROFESSOR_PRINCIPAL.toString()
+    ])
+    role?: string;
 }
