@@ -16,6 +16,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { HttpServiceModule } from './http-service/http-service.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
+import { Chat } from './chatbot/entities/chat.entity';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { ChatbotModule } from './chatbot/chatbot.module';
         User,
         Student,
         Professor,
-        Subject
+        Subject,
+        Chat
       ],
       synchronize: true
     }),

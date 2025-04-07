@@ -1,5 +1,6 @@
 export const messagesResponse = {
     academicYearNeeded: 'Es necesario el año académico',
+    chatBotUnavalible: 'chat bot no dio respuesta',
     curseTypeNeeded: 'Es necesario el tipo de curso',
     emailAlreadyExist: 'El correo ya existe',
     groupNeeded: 'Es necesario el grupo',

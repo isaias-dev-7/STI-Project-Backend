@@ -16,5 +16,5 @@ export class Subject {
         () => Professor,
         professor => professor.subject
     )
-    professor: Professor;
+    professor: Professor[];
 }

@@ -1,6 +1,7 @@
+import { Chat } from "src/chatbot/entities/chat.entity";
 import { curseEnum } from "src/common/enums/curseEnum";
 import { User } from "src/user/entities/user.entity";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Student {
@@ -28,4 +29,11 @@ export class Student {
     { onDelete: 'CASCADE' }
    )
    user: User;
+
+   @OneToMany(
+    () => Chat,
+    chat => chat.student,
+    { nullable: true }
+   )
+   chat: Chat[]
 }
