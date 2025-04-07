@@ -9,7 +9,7 @@ export class Subject {
     @Column({ type: 'varchar', length: 225, nullable: false })
     subjectName: string;
 
-    @Column({ type: 'varchar', length: 225, default: null})
+    @Column({ type: 'varchar', length: 225, default: null, select: false })
     urlImage: string;
 
     @OneToMany(
