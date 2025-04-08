@@ -24,6 +24,15 @@ export class StudentService {
         }
     }
 
+   async getLearningStyle(id: number){
+        try {
+            const learningStyle = await this.studentModel.getLearningStyleByUserId(id);
+            return SuccessResponse.build({ data: { learningStyle }});
+        } catch (error) {
+            this.handleException('getLearningStyle',error);
+        }
+   }
+
     private handleException(description: string, error: any) {
         console.error(`[ERROR] - ${description} - student.service.ts`);
         console.error({ error });

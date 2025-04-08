@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { GetUser } from 'src/auth/decorators/getUser.decorator';
 import { User } from 'src/user/entities/user.entity';
@@ -24,6 +24,17 @@ export class StudentController {
   ){
     this.utilsService.handleResponse(res, async () =>
       this.studentService.learningStyleStudent(user, learningStyle)
+    );
+  }
+
+  @Get('/getLearningStyle/:id')
+  @Auth(roleEnum.ADMIN, roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
+  getLearning(
+    @Param('id') id: string,
+    @Res() res: Response
+  ){
+    this.utilsService.handleResponse(res, async () =>
+      this.studentService.getLearningStyle(+id)
     );
   }
 }

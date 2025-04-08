@@ -17,8 +17,7 @@ export class Professor {
 
     @OneToOne(
         () => User, 
-        user => user.professor,
-        { onDelete: 'CASCADE'}
+        user => user.professor
     )
     user: User;
 

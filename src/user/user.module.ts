@@ -7,13 +7,15 @@ import { UserModel } from './model/user.model';
 import { UtilsModule } from 'src/utils/utils.module';
 import { ProfessorModule } from 'src/professor/professor.module';
 import { StudentModule } from 'src/student/student.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     UtilsModule,
     ProfessorModule,
-    StudentModule
+    StudentModule, 
+    AuthModule
   ],
   controllers: [UserController],
   providers: [

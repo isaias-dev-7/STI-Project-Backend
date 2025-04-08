@@ -3,14 +3,16 @@ import { Repository } from "typeorm";
 import { Student } from "../entities/student.entity";
 import { CreateStudentDto } from "../dto";
 import { User } from "src/user/entities/user.entity";
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { SuccessResponse } from "src/common/customResponses/successResponse";
 import { messagesResponse } from "src/common/messagesResponse";
+import { UserModel } from "src/user/model/user.model";
 
 @Injectable()
 export class StudentModel {
     constructor(
-        @InjectRepository(Student) private readonly studentRepository: Repository<Student>
+        @InjectRepository(Student) private readonly studentRepository: Repository<Student>,
+        @Inject(forwardRef(() => UserModel))private readonly userModel: UserModel
     ){}
 
     async createStudent(
@@ -43,9 +45,20 @@ export class StudentModel {
         }
     }
 
-    async getEstudentByUserId(id: number){
+    async getLearningStyleByUserId(id: number){
         try {
-             const studentDb = await this.studentRepository.findOneBy({id});
+            const user = await this.userModel.getUserbyId(id);
+            const studentDb = await this.getEstudentByUser(user);
+            return studentDb.learningStyle;
+        } catch (error) {
+            this.handleException('getLearningStyleByUserId', error);
+        }
+
+    }
+
+    async getEstudentByUser(user: User){
+        try {
+             const studentDb = await this.studentRepository.findOneBy({user});
              if(!studentDb) throw SuccessResponse.build({
                 message: messagesResponse.userNotFound
              });
@@ -53,6 +66,15 @@ export class StudentModel {
              return studentDb;
         } catch (error) {
             this.handleException('getEstudianteByUserId', error);
+        }
+    }
+
+    async deleteStudent(s: Student) {
+        try {
+            await this.studentRepository.delete(s);
+            return true;
+        } catch (error) {
+            this.handleException('deleteStudent', error);
         }
     }
 
