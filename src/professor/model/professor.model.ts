@@ -6,6 +6,8 @@ import { CreateProfessorDto } from "../dto/create-professor.dto";
 import { User } from "src/user/entities/user.entity";
 import { SubjectModel } from "src/subject/model/subject.model";
 import { Subject } from "src/subject/entities/subject.entity";
+import { SuccessResponse } from "src/common/customResponses/successResponse";
+import { messagesResponse } from "src/common/messagesResponse";
 
 @Injectable()
 export class ProfessorModel {
@@ -39,9 +41,23 @@ export class ProfessorModel {
         }
     }
 
-    async deleteProfessor(p: Professor) {
+    async getProfessorByUser(user: User) {
         try {
-            await this.professorRepository.delete(p);
+            const professorDb = await this.professorRepository.findOneBy({ user: user.professor });
+            if (!professorDb) throw SuccessResponse.build({
+                message: messagesResponse.userNotFound
+            });
+
+            return professorDb;
+        } catch (error) {
+            this.handleException('getProfessorByUser', error);
+        }
+    }
+
+    async deleteProfessor(user: User) {
+        try {
+            const professorDb = await this.getProfessorByUser(user);
+            await this.professorRepository.delete({id: professorDb.id});
             return true;
         } catch (error) {
             this.handleException('deleteProfessor', error);

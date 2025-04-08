@@ -206,9 +206,9 @@ export class UserModel {
             await this.userRepository.delete(id);
 
             if(user.role === roleEnum.ESTUDIANTE)
-                await this.studentModel.deleteStudent(user.student);
+                await this.studentModel.deleteStudent(user);
             if(user.role === roleEnum.PROFESSOR_AUXILIAR || user.role === roleEnum.PROFESSOR_PRINCIPAL)
-                await this.professorModel.deleteProfessor(user.professor);
+                await this.professorModel.deleteProfessor(user);
             return true;
         } catch (error) {
             this.handleException('deleteUserbyId', error);
