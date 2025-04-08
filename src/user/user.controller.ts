@@ -5,6 +5,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Response } from 'express';
 import { PaginDto } from 'src/common/dto/paginDto';
 import { UtilsService } from 'src/utils/utils.service';
+import { roleEnum } from 'src/common/enums/roleEnum';
+import { Auth } from 'src/auth/decorators/auth.decorator';
 
 @Controller('user')
 export class UserController {
@@ -24,6 +26,7 @@ export class UserController {
   }
 
   @Get()
+  @Auth(roleEnum.ADMIN, roleEnum.PROFESSOR_PRINCIPAL, roleEnum.PROFESSOR_AUXILIAR)
   findAll(
     @Query() paginDto: PaginDto,
     @Res() res: Response
@@ -35,6 +38,7 @@ export class UserController {
   }
 
   @Get(':id')
+  @Auth(roleEnum.ADMIN, roleEnum.PROFESSOR_PRINCIPAL, roleEnum.PROFESSOR_AUXILIAR)
   findOne(
     @Param('id') id: string,
     @Res() res: Response
@@ -45,11 +49,13 @@ export class UserController {
   }
 
   @Patch(':id')
+  @Auth(roleEnum.ADMIN)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
+  @Auth(roleEnum.ADMIN)
   remove(
     @Param('id') id: string,
     @Res() res: Response

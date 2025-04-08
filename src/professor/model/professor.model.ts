@@ -39,6 +39,15 @@ export class ProfessorModel {
         }
     }
 
+    async deleteProfessor(p: Professor) {
+        try {
+            await this.professorRepository.delete(p);
+            return true;
+        } catch (error) {
+            this.handleException('deleteProfessor', error);
+        }
+    }
+
     private handleException(description: string, error: any) {
         console.error(`[ERROR] - ${description} - /professor/model/professor.model.ts`);
         console.error({error});

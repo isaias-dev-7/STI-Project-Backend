@@ -100,8 +100,7 @@ export class UserModel {
                 code: 404,
                 message: messagesResponse.userNotFound
             });
-        
-            return this.utilsService.cleanDataUser(userDb);
+            return userDb;
         } catch (error) {
             this.handleException('getUserById', error);
         }
@@ -203,8 +202,13 @@ export class UserModel {
 
     async deleteUserbyID(id: number){
         try {
-            await this.getUserbyId(id);
+            const user = await this.getUserbyId(id);
             await this.userRepository.delete(id);
+
+            if(user.role === roleEnum.ESTUDIANTE)
+                await this.studentModel.deleteStudent(user.student);
+            if(user.role === roleEnum.PROFESSOR_AUXILIAR || user.role === roleEnum.PROFESSOR_PRINCIPAL)
+                await this.professorModel.deleteProfessor(user.professor);
             return true;
         } catch (error) {
             this.handleException('deleteUserbyId', error);

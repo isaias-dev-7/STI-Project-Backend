@@ -24,7 +24,7 @@ export class ChatModel {
         user: User
     ){
         try {
-            const studentDb = await this.studentModel.getEstudentByUserId(user.id);
+            const studentDb = await this.studentModel.getEstudentByUser(user);
             const createAtMessageStudent = moment().valueOf();
             const response = await this.httpService.requestHttp(PathAIEnum.CHAT, body);
             if(!response) throw ErrorResponse.build({
