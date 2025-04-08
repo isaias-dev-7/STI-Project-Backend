@@ -8,6 +8,7 @@ import { ErrorResponse } from "src/common/customResponses/errorResponse";
 import { messagesResponse } from "src/common/messagesResponse";
 import * as fs from 'fs-extra';
 import { ProfessorModel } from "src/professor/model/professor.model";
+import { SuccessResponse } from "src/common/customResponses/successResponse";
 
 @Injectable()
 export class SubjectModel {
@@ -84,6 +85,9 @@ export class SubjectModel {
     async getImageById(id: number){
         try {
             const subjectDb: Subject = await this.getSubjectById(id);
+            if(!subjectDb.urlImage) SuccessResponse.build({
+                message: messagesResponse.imageNotFound
+            })
             return  [await fs.stat(subjectDb.urlImage), subjectDb.urlImage];
         } catch (error) {
             this.handleException('getImageById', error);

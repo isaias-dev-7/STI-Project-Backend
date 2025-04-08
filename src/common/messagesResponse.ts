@@ -6,6 +6,7 @@ export const messagesResponse = {
     groupNeeded: 'Es necesario el grupo',
     invalidFormatImage: 'Formato de imagen no válido',
     incorrectCredentials: 'Los credenciales son incorrectos',
+    imageNotFound: 'La imagen no existe',
     learningStyleAssociated: 'Estilo de aprendizage asociado con éxito',
     subjectAlreadyExist: 'La asignatura con ese nombre ya existe',
     subjectCreated: 'La asignatura fue creada con éxito',
