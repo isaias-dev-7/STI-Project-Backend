@@ -58,7 +58,7 @@ export class StudentModel {
 
     async getEstudentByUser(user: User){
         try {
-             const studentDb = await this.studentRepository.findOneBy({user});
+             const studentDb = await this.studentRepository.findOneBy({user: user.student});
              if(!studentDb) throw SuccessResponse.build({
                 message: messagesResponse.userNotFound
              });
@@ -69,9 +69,10 @@ export class StudentModel {
         }
     }
 
-    async deleteStudent(s: Student) {
+    async deleteStudent(user: User) {
         try {
-            await this.studentRepository.delete(s);
+            const studentDb = await this.getEstudentByUser(user);
+            await this.studentRepository.delete({id: studentDb.id});
             return true;
         } catch (error) {
             this.handleException('deleteStudent', error);
