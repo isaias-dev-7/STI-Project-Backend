@@ -85,7 +85,7 @@ export class SubjectModel {
     async getImageById(id: number){
         try {
             const subjectDb: Subject = await this.getSubjectById(id);
-            if(!subjectDb.urlImage) SuccessResponse.build({
+            if(!subjectDb.urlImage) throw ErrorResponse.build({
                 message: messagesResponse.imageNotFound
             })
             return  [await fs.stat(subjectDb.urlImage), subjectDb.urlImage];

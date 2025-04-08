@@ -6,6 +6,8 @@ import { SuccessResponse } from 'src/common/customResponses/successResponse';
 import { messagesResponse } from 'src/common/messagesResponse';
 import { Subject } from './entities/subject.entity';
 import { UpdateSubjectDto } from './dtos/updateSubject.dto';
+import { Response } from 'express';
+import * as fs from 'fs';
 
 @Injectable()
 export class SubjectService {
@@ -60,11 +62,17 @@ export class SubjectService {
         }
     }
 
-    async getImage(id: number){
+    async getImage(
+        id: number,
+        res: Response
+    ) {
         try {
-            return await this.subjectModel.getImageById(id);
+            const [fileStat, path] = await this.subjectModel.getImageById(id);
+            res.setHeader('Content-Length', fileStat.size);
+            res.setHeader('Cache-Control', 'public, max-age=31557600');
+            return fs.createReadStream(path).pipe(res);   
         } catch (error) {
-            this.handleException(error);
+            return res.status(error.code).json(error);
         }
     }
 
