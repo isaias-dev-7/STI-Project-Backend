@@ -7,7 +7,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateSubjectDto } from './dtos/updateSubject.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { roleEnum } from 'src/common/enums/roleEnum';
-import * as fs from 'fs';
 
 @Controller('subject')
 export class SubjectController {
@@ -45,10 +44,7 @@ export class SubjectController {
     @Param('id', ParseIntPipe) id: number,
     @Res() res: Response
   ){
-    const [fileStat, path] = await this.subjectService.getImage(id);
-    res.setHeader('Content-Length', fileStat.size);
-    res.setHeader('Cache-Control', 'public, max-age=31557600');
-    return fs.createReadStream(path).pipe(res);
+      return this.subjectService.getImage(id, res);
   }
 
   @Patch('/:id')
