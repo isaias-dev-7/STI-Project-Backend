@@ -43,7 +43,7 @@ export class ProfessorModel {
 
     async getProfessorByUser(user: User) {
         try {
-            const professorDb = await this.professorRepository.findOneBy({ user: user.professor });
+            const professorDb = await this.professorRepository.findOneBy({ user });
             if (!professorDb) throw SuccessResponse.build({
                 message: messagesResponse.userNotFound
             });
