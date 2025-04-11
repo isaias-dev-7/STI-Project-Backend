@@ -48,6 +48,7 @@ export class StudentModel {
     async getLearningStyleByUserId(id: number){
         try {
             const user = await this.userModel.getUserbyId(id);
+            console.log(user)
             const studentDb = await this.getEstudentByUser(user);
             return studentDb.learningStyle;
         } catch (error) {
@@ -58,7 +59,7 @@ export class StudentModel {
 
     async getEstudentByUser(user: User){
         try {
-             const studentDb = await this.studentRepository.findOneBy({user: user.student});
+             const studentDb = await this.studentRepository.findOneBy({ user });
              if(!studentDb) throw SuccessResponse.build({
                 message: messagesResponse.userNotFound
              });

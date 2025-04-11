@@ -153,7 +153,7 @@ export const initialData: SeedData = {
             academicYear:1,
             curseType: curseEnum.DIURNO,
             firtsTime: false,
-            learningStyle: "50,60,30,20"
+            learningStyle: "30,60,30,20"
         },
         {
             username: "mariahp",
@@ -165,7 +165,7 @@ export const initialData: SeedData = {
             academicYear:1,
             curseType: curseEnum.DIURNO,
             firtsTime: false,
-            learningStyle: "50,60,30,20"
+            learningStyle: "30,60,30,20"
         },
         {
             username: "amandahp",
@@ -177,7 +177,7 @@ export const initialData: SeedData = {
             academicYear:1,
             curseType: curseEnum.DIURNO,
             firtsTime: false,
-            learningStyle: "50,60,30,20"
+            learningStyle: "50,60,70,20"
         },
     ],
 
