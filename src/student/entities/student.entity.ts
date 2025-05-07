@@ -17,7 +17,7 @@ export class Student {
     @Column({ type: 'numeric', nullable: false})
     academicYear: number;
 
-    @Column({ type: 'varchar', length: 225}) 
+    @Column({ type: 'varchar', length: 225, default: null }) 
     learningStyle: string;
 
     @Column({ type: 'boolean', nullable: false, default: true })
