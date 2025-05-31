@@ -1,4 +1,4 @@
-import { Professor } from "src/professor/entities/professor.entity";
+import { Professor } from "../../professor/entities/professor.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

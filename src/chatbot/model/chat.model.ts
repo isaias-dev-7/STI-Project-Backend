@@ -2,14 +2,14 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Chat } from "../entities/chat.entity";
-import { ISendMessage } from "src/common/interfaces/sendMessage.interface";
-import { User } from "src/user/entities/user.entity";
-import { HttpService } from "src/http-service/http.service";
-import { PathAIEnum } from "src/common/enums/pathAI.enum";
-import { StudentModel } from "src/student/model/student.model";
+import { ISendMessage } from "../../common/interfaces/sendMessage.interface";
+import { User } from "../../user/entities/user.entity";
+import { HttpService } from "../../http-service/http.service";
+import { PathAIEnum } from "../../common/enums/pathAI.enum";
+import { StudentModel } from "../../student/model/student.model";
 import * as moment from "moment";
-import { ErrorResponse } from "src/common/customResponses/errorResponse";
-import { messagesResponse } from "src/common/messagesResponse";
+import { ErrorResponse } from "../../common/customResponses/errorResponse";
+import { messagesResponse } from "../../common/messagesResponse";
 
 @Injectable()
 export class ChatModel {

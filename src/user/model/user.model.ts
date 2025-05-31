@@ -3,16 +3,15 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { And, Like, Repository } from "typeorm";
 import { User } from "../entities/user.entity";
 import { CreateUserDto } from "../dto/create-user.dto";
-import { PaginDto } from "src/common/dto/paginDto";
-import { UtilsService } from "src/utils/utils.service";
-import { ProfessorModel } from "src/professor/model/professor.model";
-import { StudentModel } from "src/student/model/student.model";
-import { roleEnum } from "src/common/enums/roleEnum";
-import { ErrorResponse } from "src/common/customResponses/errorResponse";
-import { messagesResponse } from "src/common/messagesResponse";
+import { PaginDto } from "../../common/dto/paginDto";
+import { UtilsService } from "../../utils/utils.service";
+import { ProfessorModel } from "../../professor/model/professor.model";
+import { StudentModel } from "../../student/model/student.model";
+import { roleEnum } from "../../common/enums/roleEnum";
+import { ErrorResponse } from "../../common/customResponses/errorResponse";
+import { messagesResponse } from "../../common/messagesResponse";
 import * as moment from "moment";
 import { UpdateUserDto } from "../dto/update-user.dto";
-import { Student } from "src/student/entities/student.entity";
 
 @Injectable()
 export class UserModel {

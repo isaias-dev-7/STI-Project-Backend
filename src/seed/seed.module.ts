@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
 import { SeedService } from './seed.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/user/entities/user.entity';
-import { Professor } from 'src/professor/entities/professor.entity';
-import { Student } from 'src/student/entities/student.entity';
-import { Subject } from 'src/subject/entities/subject.entity';
-import { UtilsModule } from 'src/utils/utils.module';
+import { User } from '../user/entities/user.entity';
+import { Professor } from '../professor/entities/professor.entity';
+import { Student } from '../student/entities/student.entity';
+import { Subject } from '../subject/entities/subject.entity';
 
 @Module({
     imports: [

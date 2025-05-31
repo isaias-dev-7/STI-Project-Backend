@@ -3,11 +3,11 @@ import * as bcryptjs from 'bcryptjs';
 import { Response } from "express";
 import { createWriteStream } from "fs";
 import { join } from "path";
-import { ErrorResponse } from "src/common/customResponses/errorResponse";
-import { MyResponse } from "src/common/customResponses/response";
-import { ISavedFile } from "src/common/interfaces/saveFile.interface";
-import { messagesResponse } from "src/common/messagesResponse";
-import { User } from "src/user/entities/user.entity";
+import { ErrorResponse } from "../common/customResponses/errorResponse";
+import { MyResponse } from "../common/customResponses/response";
+import { ISavedFile } from "../common/interfaces/saveFile.interface";
+import { messagesResponse } from "../common/messagesResponse";
+import { User } from "../user/entities/user.entity";
 
 @Injectable()
 export class UtilsService {

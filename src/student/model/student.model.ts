@@ -2,11 +2,11 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Student } from "../entities/student.entity";
 import { CreateStudentDto } from "../dto";
-import { User } from "src/user/entities/user.entity";
+import { User } from "../../user/entities/user.entity";
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
-import { SuccessResponse } from "src/common/customResponses/successResponse";
-import { messagesResponse } from "src/common/messagesResponse";
-import { UserModel } from "src/user/model/user.model";
+import { SuccessResponse } from "../../common/customResponses/successResponse";
+import { messagesResponse } from "../../common/messagesResponse";
+import { UserModel } from "../../user/model/user.model";
 
 @Injectable()
 export class StudentModel {

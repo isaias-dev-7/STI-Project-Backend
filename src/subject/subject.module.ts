@@ -4,9 +4,9 @@ import { SubjectController } from './subject.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Subject } from './entities/subject.entity';
 import { SubjectModel } from './model/subject.model';
-import { UtilsModule } from 'src/utils/utils.module';
-import { AuthModule } from 'src/auth/auth.module';
-import { ProfessorModule } from 'src/professor/professor.module';
+import { UtilsModule } from '../utils/utils.module';
+import { AuthModule } from '../auth/auth.module';
+import { ProfessorModule } from '../professor/professor.module';
 
 @Module({
   imports: [

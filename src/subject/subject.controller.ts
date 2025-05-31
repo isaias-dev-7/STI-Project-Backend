@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { SubjectService } from './subject.service';
-import { UtilsService } from 'src/utils/utils.service';
+import { UtilsService } from '../utils/utils.service';
 import { CreateSubjectDto } from './dtos/createSubject.dto';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateSubjectDto } from './dtos/updateSubject.dto';
-import { Auth } from 'src/auth/decorators/auth.decorator';
-import { roleEnum } from 'src/common/enums/roleEnum';
+import { Auth } from '../auth/decorators/auth.decorator';
+import { roleEnum } from '../common/enums/roleEnum';
 
 @Controller('subject')
 export class SubjectController {

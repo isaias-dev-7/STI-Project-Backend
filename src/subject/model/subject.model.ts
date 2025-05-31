@@ -4,11 +4,10 @@ import { Subject } from "../entities/subject.entity";
 import { Repository } from "typeorm";
 import { CreateSubjectDto } from "../dtos/createSubject.dto";
 import { UpdateSubjectDto } from "../dtos/updateSubject.dto";
-import { ErrorResponse } from "src/common/customResponses/errorResponse";
-import { messagesResponse } from "src/common/messagesResponse";
+import { ErrorResponse } from "../../common/customResponses/errorResponse";
+import { messagesResponse } from "../../common/messagesResponse";
 import * as fs from 'fs-extra';
-import { ProfessorModel } from "src/professor/model/professor.model";
-import { SuccessResponse } from "src/common/customResponses/successResponse";
+import { ProfessorModel } from "../../professor/model/professor.model";
 
 @Injectable()
 export class SubjectModel {

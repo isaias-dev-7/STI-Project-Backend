@@ -3,11 +3,11 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Professor } from "../entities/professor.entity";
 import { Repository } from "typeorm";
 import { CreateProfessorDto } from "../dto/create-professor.dto";
-import { User } from "src/user/entities/user.entity";
-import { SubjectModel } from "src/subject/model/subject.model";
-import { Subject } from "src/subject/entities/subject.entity";
-import { SuccessResponse } from "src/common/customResponses/successResponse";
-import { messagesResponse } from "src/common/messagesResponse";
+import { User } from "../../user/entities/user.entity";
+import { SubjectModel } from "../../subject/model/subject.model";
+import { Subject } from "../../subject/entities/subject.entity";
+import { SuccessResponse } from "../../common/customResponses/successResponse";
+import { messagesResponse } from "../../common/messagesResponse";
 
 @Injectable()
 export class ProfessorModel {

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { StudentModel } from './model/student.model';
-import { UtilsService } from 'src/utils/utils.service';
-import { User } from 'src/user/entities/user.entity';
-import { SuccessResponse } from 'src/common/customResponses/successResponse';
-import { messagesResponse } from 'src/common/messagesResponse';
+import { UtilsService } from '../utils/utils.service';
+import { User } from '../user/entities/user.entity';
+import { SuccessResponse } from '../common/customResponses/successResponse';
+import { messagesResponse } from '../common/messagesResponse';
 
 @Injectable()
 export class StudentService {

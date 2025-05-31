@@ -4,10 +4,10 @@ import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { UserModel } from './model/user.model';
-import { UtilsModule } from 'src/utils/utils.module';
-import { ProfessorModule } from 'src/professor/professor.module';
-import { StudentModule } from 'src/student/student.module';
-import { AuthModule } from 'src/auth/auth.module';
+import { UtilsModule } from '../utils/utils.module';
+import { ProfessorModule } from '../professor/professor.module';
+import { StudentModule } from '../student/student.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [

@@ -1,12 +1,12 @@
 import { Body, Controller, Post, Res } from "@nestjs/common";
 import { ChatBotService } from "./chatbot.service";
-import { UtilsService } from "src/utils/utils.service";
-import { GetUser } from "src/auth/decorators/getUser.decorator";
+import { UtilsService } from "../utils/utils.service";
+import { GetUser } from "../auth/decorators/getUser.decorator";
 import { Response } from "express";
-import { User } from "src/user/entities/user.entity";
+import { User } from "../user/entities/user.entity";
 import { ISendMessage } from "src/common/interfaces/sendMessage.interface";
-import { Auth } from "src/auth/decorators/auth.decorator";
-import { roleEnum } from "src/common/enums/roleEnum";
+import { Auth } from "../auth/decorators/auth.decorator";
+import { roleEnum } from "../common/enums/roleEnum";
 
 @Controller('chatbot')
 export class ChatBotController {
@@ -26,15 +26,4 @@ export class ChatBotController {
             this.chatBotService.send(body, user)
         );
     }
-
-
-   /* @Post('test')
-    test(
-        @Body() body: any,
-        @Res() res: Response
-    ){
-        return res.status(200).json({
-            message: 'hi there'
-        });
-    }*/
 }
