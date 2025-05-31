@@ -6,6 +6,7 @@ import { GroupModel } from './model/group.model';
 import { SuccessResponse } from 'src/common/customResponses/successResponse';
 import { messagesResponse } from 'src/common/messagesResponse';
 import { User } from 'src/user/entities/user.entity';
+import { ErrorResponse } from 'src/common/customResponses/errorResponse';
 
 @Injectable()
 export class GroupService {
@@ -33,8 +34,14 @@ export class GroupService {
   }
 
   
-  update(id: number, updateGroupDto: UpdateGroupDto) {
-    return `This action updates a #${id} group`;
+  async update(id: number, updateGroupDto: UpdateGroupDto) {
+    try {
+      if(!updateGroupDto.key && !updateGroupDto.name) throw ErrorResponse.build({code: 400});
+      await this.groupModel.updateGroupById(updateGroupDto, id);
+      return SuccessResponse.build({ message: messagesResponse.groupUpdated });
+    } catch (error) {
+      this.handleException(error);
+    }
   }
 
   remove(id: number) {

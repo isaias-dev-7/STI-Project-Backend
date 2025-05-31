@@ -16,7 +16,7 @@ export class Group {
     @ManyToOne(
         () => Subject,
         subject => subject.group,
-        { nullable: true } 
+        { nullable: true, onDelete: "CASCADE" } 
     )
     subject: Subject;
 

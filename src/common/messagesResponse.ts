@@ -5,6 +5,7 @@ export const messagesResponse = {
     emailAlreadyExist: 'El correo ya existe',
     groupNeeded: 'Es necesario el grupo',
     groupCreate: 'Grupo creado de manera exitosa',
+    groupUpdated: 'Grupo actualizado de manera exitosa',
     invalidFormatImage: 'Formato de imagen no válido',
     incorrectCredentials: 'Los credenciales son incorrectos',
     imageNotFound: 'La imagen no existe',
