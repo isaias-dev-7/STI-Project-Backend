@@ -9,6 +9,7 @@ import { messagesResponse } from "../../common/messagesResponse";
 import { UserModel } from "src/user/model/user.model";
 import { roleEnum } from "src/common/enums/roleEnum";
 import { User } from "src/user/entities/user.entity";
+import { UpdateGroupDto } from "../dto/update-group.dto";
 
 @Injectable()
 export class GroupModel {
@@ -41,6 +42,15 @@ export class GroupModel {
             return groups;
         } catch (error) {
             this.handleException('getAllGroup', error);
+        }
+    }
+
+    async updateGroupById({key, name}: UpdateGroupDto, id: number){
+        try {
+          await this.groupRepository.update(id, {name, key});
+          return true;
+        } catch (error) {
+            this.handleException('updateGroupById', error);
         }
     }
 

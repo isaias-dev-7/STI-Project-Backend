@@ -21,7 +21,8 @@ export class Subject {
 
     @OneToMany(
         () => Group,
-        group => group.subject
+        group => group.subject,
+        {cascade: ["remove"]}
     )
     group: Group[];
 }
