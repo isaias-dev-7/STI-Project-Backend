@@ -46,7 +46,7 @@ export class GroupModel {
     async getAllGroup(professorId: number){
         try {
             const user = null;
-            const groups: Group [] = await this.groupRepository.
+           // const groups: Group [] = await this.groupRepository.
         } catch (error) {
             this.handleException('getAllGroup', error);
         }
