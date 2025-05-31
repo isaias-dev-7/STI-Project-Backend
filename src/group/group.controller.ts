@@ -23,7 +23,6 @@ export class GroupController {
     @GetUser() professor: User,
     @Res() res: Response
   ) {
-    console.log(professor);
     this.utilsService.handleResponse(res, async () => 
       this.groupService.create(createGroupDto, professor)
     );

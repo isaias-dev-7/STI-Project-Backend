@@ -5,6 +5,7 @@ import { User } from '../user/entities/user.entity';
 import { Professor } from '../professor/entities/professor.entity';
 import { Student } from '../student/entities/student.entity';
 import { Subject } from '../subject/entities/subject.entity';
+import { Group } from 'src/group/entities/group.entity';
 
 @Module({
     imports: [
@@ -12,7 +13,8 @@ import { Subject } from '../subject/entities/subject.entity';
             User,
             Professor,
             Student,
-            Subject
+            Subject,
+            Group
         ])
     ],
     providers: [ SeedService ],

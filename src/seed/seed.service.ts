@@ -8,6 +8,7 @@ import { Repository } from "typeorm";
 import { initialData } from "./data/data";
 import * as moment from "moment";
 import * as bcryptjs from 'bcryptjs';
+import { Group } from "src/group/entities/group.entity";
 
 @Injectable()
 export class SeedService {
@@ -15,11 +16,22 @@ export class SeedService {
         @InjectRepository(User) private readonly userRepository: Repository<User>,
         @InjectRepository(Student) private readonly studentRepository: Repository<Student>,
         @InjectRepository(Professor) private readonly professorRepository: Repository<Professor>,
-        @InjectRepository(Subject) private readonly subjectRepository: Repository<Subject>
+        @InjectRepository(Subject) private readonly subjectRepository: Repository<Subject>,
+        @InjectRepository(Group) private readonly groupRepository: Repository<Group>
     ) { }
 
     async deleteAll() {
         try {
+            await this.groupRepository.createQueryBuilder()
+                .delete()
+                .from('group_user_user')
+                .execute();
+
+            await this.groupRepository.createQueryBuilder()
+                .delete()
+                .where({})
+                .execute();
+                
             await this.userRepository.createQueryBuilder()
                 .delete()
                 .where({})
