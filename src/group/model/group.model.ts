@@ -8,6 +8,7 @@ import { ErrorResponse } from "../../common/customResponses/errorResponse";
 import { messagesResponse } from "../../common/messagesResponse";
 import { UserModel } from "src/user/model/user.model";
 import { roleEnum } from "src/common/enums/roleEnum";
+import { User } from "src/user/entities/user.entity";
 
 @Injectable()
 export class GroupModel {
@@ -17,24 +18,15 @@ export class GroupModel {
         private readonly userModel: UserModel
     ){}
 
-    async createGroup({key, name, idSubject, idProfessor}: CreateGroupDto){
+    async createGroup({key, name, idSubject}: CreateGroupDto, professor: User){
         try {
             const subject = await this.subjectModel.getSubjectById(idSubject);
-            const professor = await this.userModel.getUserbyId(idProfessor);
            
             if(!subject) throw ErrorResponse.build({
                 code: 404,
                 message: messagesResponse.subjectNotFound
             });
             
-            if(!professor) throw ErrorResponse.build({
-                code: 404,
-                message: messagesResponse.userNotFound
-            });
-
-            if(professor.role != roleEnum.PROFESSOR_AUXILIAR || professor.role != roleEnum.PROFESSOR_AUXILIAR)
-                throw ErrorResponse.build({code: 401, message: messagesResponse.incorrectCredentials })
-
             const group = this.groupRepository.create({key, name, subject, user: [professor]});
             await this.groupRepository.save(group);
             return true; 
@@ -45,8 +37,8 @@ export class GroupModel {
 
     async getAllGroup(professorId: number){
         try {
-            const user = null;
-           // const groups: Group [] = await this.groupRepository.
+            const groups: Group[] = await this.userModel.getGroupsByUserId(professorId);
+            return groups;
         } catch (error) {
             this.handleException('getAllGroup', error);
         }

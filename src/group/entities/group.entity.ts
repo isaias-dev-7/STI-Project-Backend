@@ -15,7 +15,8 @@ export class Group {
 
     @ManyToOne(
         () => Subject,
-        subject => subject.group
+        subject => subject.group,
+        { nullable: true } 
     )
     subject: Subject;
 
