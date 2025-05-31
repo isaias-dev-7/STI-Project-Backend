@@ -1,17 +1,16 @@
 import { forwardRef, Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { UserModel } from 'src/user/model/user.model';
-import { UtilsService } from 'src/utils/utils.service';
+import { UserModel } from '../user/model/user.model';
+import { UtilsService } from '../utils/utils.service';
 import { LoginDto } from './dto/login.dto';
-import { MyResponse } from 'src/common/customResponses/response';
-import { ErrorResponse } from 'src/common/customResponses/errorResponse';
-import { messagesResponse } from 'src/common/messagesResponse';
-import { SuccessResponse } from 'src/common/customResponses/successResponse';
+import { MyResponse } from '../common/customResponses/response';
+import { ErrorResponse } from '../common/customResponses/errorResponse';
+import { messagesResponse } from '../common/messagesResponse';
+import { SuccessResponse } from '../common/customResponses/successResponse';
 import { JwtService } from '@nestjs/jwt';
 import { IPayload } from './interfaces/payload';
-import { roleEnum } from 'src/common/enums/roleEnum';
-import { User } from 'src/user/entities/user.entity';
-import { HttpService } from 'src/http-service/http.service';
-import { SeedService } from 'src/seed/seed.service';
+import { roleEnum } from '../common/enums/roleEnum';
+import { User } from '../user/entities/user.entity';
+import { SeedService } from '../seed/seed.service';
 
 @Injectable()
 export class AuthService {

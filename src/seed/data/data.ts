@@ -1,8 +1,8 @@
-import { curseEnum } from "src/common/enums/curseEnum";
-import { facultadEnum } from "src/common/enums/facultadEnum";
-import { roleEnum } from "src/common/enums/roleEnum";
-import { ScientificDegreeEnum } from "src/common/enums/scientificDegreeEnum";
-import { TeachingDegreeEnum } from "src/common/enums/teachingDegreeEnum";
+import { curseEnum } from "../../common/enums/curseEnum";
+import { facultadEnum } from "../../common/enums/facultadEnum";
+import { roleEnum } from "../../common/enums/roleEnum";
+import { ScientificDegreeEnum } from "../../common/enums/scientificDegreeEnum";
+import { TeachingDegreeEnum } from "../../common/enums/teachingDegreeEnum";
 
 interface SeedUser {
     username: string;

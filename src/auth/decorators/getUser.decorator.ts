@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext, InternalServerErrorException} from "@nestjs/common";
-import { messagesResponse } from "src/common/messagesResponse";
+import { messagesResponse } from "../../common/messagesResponse";
 
 export const GetUser = createParamDecorator(
     ( data: string, ctx: ExecutionContext ) => {

@@ -4,7 +4,7 @@ import { ProfessorController } from './professor.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Professor } from './entities/professor.entity';
 import { ProfessorModel } from './model/professor.model';
-import { SubjectModule } from 'src/subject/subject.module';
+import { SubjectModule } from '../subject/subject.module';
 
 @Module({
   imports:[

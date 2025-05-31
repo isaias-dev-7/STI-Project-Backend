@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { HttpService as HTTP } from "@nestjs/axios"
 import { PathAIEnum } from "../common/enums/pathAI.enum";
 import { firstValueFrom } from "rxjs";
-import { ISendMessage } from "src/common/interfaces/sendMessage.interface";
-import { UtilsService } from "src/utils/utils.service";
+import { ISendMessage } from "../common/interfaces/sendMessage.interface";
+import { UtilsService } from "../utils/utils.service";
 
 @Injectable()
 export class HttpService {

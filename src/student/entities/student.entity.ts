@@ -1,6 +1,6 @@
-import { Chat } from "src/chatbot/entities/chat.entity";
-import { curseEnum } from "src/common/enums/curseEnum";
-import { User } from "src/user/entities/user.entity";
+import { Chat } from "../../chatbot/entities/chat.entity";
+import { curseEnum } from "../../common/enums/curseEnum";
+import { User } from "../../user/entities/user.entity";
 import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

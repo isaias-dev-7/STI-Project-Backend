@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserModel } from './model/user.model';
-import { PaginDto } from 'src/common/dto/paginDto';
-import { messagesResponse } from 'src/common/messagesResponse';
-import { ErrorResponse } from 'src/common/customResponses/errorResponse';
-import { SuccessResponse } from 'src/common/customResponses/successResponse';
-import { UtilsService } from 'src/utils/utils.service';
-import { MyResponse } from 'src/common/customResponses/response';
-import { PaginResponse } from 'src/common/customResponses/paginResponse';
+import { PaginDto } from '../common/dto/paginDto';
+import { messagesResponse } from '../common/messagesResponse';
+import { ErrorResponse } from '../common/customResponses/errorResponse';
+import { SuccessResponse } from '../common/customResponses/successResponse';
+import { UtilsService } from '../utils/utils.service';
+import { MyResponse } from '../common/customResponses/response';
+import { PaginResponse } from '../common/customResponses/paginResponse';
 
 @Injectable()
 export class UserService {

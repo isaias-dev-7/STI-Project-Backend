@@ -3,10 +3,10 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Response } from 'express';
-import { PaginDto } from 'src/common/dto/paginDto';
-import { UtilsService } from 'src/utils/utils.service';
-import { roleEnum } from 'src/common/enums/roleEnum';
-import { Auth } from 'src/auth/decorators/auth.decorator';
+import { PaginDto } from '../common/dto/paginDto';
+import { UtilsService } from '../utils/utils.service';
+import { roleEnum } from '../common/enums/roleEnum';
+import { Auth } from '../auth/decorators/auth.decorator';
 
 @Controller('user')
 export class UserController {

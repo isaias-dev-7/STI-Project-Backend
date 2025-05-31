@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { SubjectModel } from './model/subject.model';
-import { UtilsService } from 'src/utils/utils.service';
+import { UtilsService } from '../utils/utils.service';
 import { CreateSubjectDto } from './dtos/createSubject.dto';
-import { SuccessResponse } from 'src/common/customResponses/successResponse';
-import { messagesResponse } from 'src/common/messagesResponse';
+import { SuccessResponse } from '../common/customResponses/successResponse';
+import { messagesResponse } from '../common/messagesResponse';
 import { Subject } from './entities/subject.entity';
 import { UpdateSubjectDto } from './dtos/updateSubject.dto';
 import { Response } from 'express';

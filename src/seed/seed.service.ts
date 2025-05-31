@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Professor } from "src/professor/entities/professor.entity";
-import { Student } from "src/student/entities/student.entity";
-import { Subject } from "src/subject/entities/subject.entity";
-import { User } from "src/user/entities/user.entity";
+import { Professor } from "../professor/entities/professor.entity";
+import { Student } from "../student/entities/student.entity";
+import { Subject } from "../subject/entities/subject.entity";
+import { User } from "../user/entities/user.entity";
 import { Repository } from "typeorm";
 import { initialData } from "./data/data";
 import * as moment from "moment";

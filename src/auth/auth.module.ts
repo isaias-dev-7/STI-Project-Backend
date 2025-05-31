@@ -1,13 +1,13 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { UserModule } from 'src/user/user.module';
-import { UtilsModule } from 'src/utils/utils.module';
+import { UserModule } from '../user/user.module';
+import { UtilsModule } from '../utils/utils.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwtStrategy';
-import { SeedModule } from 'src/seed/seed.module';
+import { SeedModule } from '../seed/seed.module';
 
 @Module({
     imports: [

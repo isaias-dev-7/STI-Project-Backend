@@ -1,7 +1,7 @@
-import { ScientificDegreeEnum } from "src/common/enums/scientificDegreeEnum";
-import { TeachingDegreeEnum } from "src/common/enums/teachingDegreeEnum";
-import { Subject } from "src/subject/entities/subject.entity";
-import { User } from "src/user/entities/user.entity";
+import { ScientificDegreeEnum } from "../../common/enums/scientificDegreeEnum";
+import { TeachingDegreeEnum } from "../../common/enums/teachingDegreeEnum";
+import { Subject } from "../../subject/entities/subject.entity";
+import { User } from "../../user/entities/user.entity";
 import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

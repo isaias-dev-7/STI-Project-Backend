@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 import { StudentService } from './student.service';
-import { GetUser } from 'src/auth/decorators/getUser.decorator';
-import { User } from 'src/user/entities/user.entity';
+import { GetUser } from '../auth/decorators/getUser.decorator';
+import { User } from '../user/entities/user.entity';
 import { LearningStyleDto } from './dto/learningStyle.dto';
 import { Response } from 'express';
-import { UtilsService } from 'src/utils/utils.service';
-import { Auth } from 'src/auth/decorators/auth.decorator';
-import { roleEnum } from 'src/common/enums/roleEnum';
+import { UtilsService } from '../utils/utils.service';
+import { Auth } from '../auth/decorators/auth.decorator';
+import { roleEnum } from '../common/enums/roleEnum';
 
 @Controller('student')
 export class StudentController {

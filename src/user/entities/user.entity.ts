@@ -1,7 +1,7 @@
-import { facultadEnum } from "src/common/enums/facultadEnum";
-import { roleEnum } from "src/common/enums/roleEnum";
-import { Professor } from "src/professor/entities/professor.entity";
-import { Student } from "src/student/entities/student.entity";
+import { facultadEnum } from "../../common/enums/facultadEnum";
+import { roleEnum } from "../../common/enums/roleEnum";
+import { Professor } from "../../professor/entities/professor.entity";
+import { Student } from "../../student/entities/student.entity";
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
