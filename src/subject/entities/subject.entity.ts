@@ -1,3 +1,4 @@
+import { Group } from "src/group/entities/group.entity";
 import { Professor } from "../../professor/entities/professor.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -17,4 +18,10 @@ export class Subject {
         professor => professor.subject
     )
     professor: Professor[];
+
+    @OneToMany(
+        () => Group,
+        group => group.subject
+    )
+    group: Group[];
 }
