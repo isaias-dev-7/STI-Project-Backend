@@ -4,6 +4,7 @@ export const messagesResponse = {
     curseTypeNeeded: 'Es necesario el tipo de curso',
     emailAlreadyExist: 'El correo ya existe',
     groupNeeded: 'Es necesario el grupo',
+    groupCreate: 'Grupo creado de manera exitosa',
     invalidFormatImage: 'Formato de imagen no válido',
     incorrectCredentials: 'Los credenciales son incorrectos',
     imageNotFound: 'La imagen no existe',

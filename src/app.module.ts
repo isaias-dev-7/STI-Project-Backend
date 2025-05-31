@@ -18,6 +18,8 @@ import { HttpServiceModule } from './http-service/http-service.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
 import { Chat } from './chatbot/entities/chat.entity';
 import { SeedModule } from './seed/seed.module';
+import { GroupModule } from './group/group.module';
+import { Group } from './group/entities/group.entity';
 
 @Module({
   imports: [
@@ -37,7 +39,8 @@ import { SeedModule } from './seed/seed.module';
         Student,
         Professor,
         Subject,
-        Chat
+        Chat, 
+        Group
       ],
       synchronize: true
     }),
@@ -50,7 +53,8 @@ import { SeedModule } from './seed/seed.module';
     SubjectModule,
     HttpServiceModule,
     ChatbotModule,
-    SeedModule
+    SeedModule,
+    GroupModule,
   ],
   controllers: [],
   providers: [],
