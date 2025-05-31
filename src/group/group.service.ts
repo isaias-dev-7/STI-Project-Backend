@@ -44,8 +44,13 @@ export class GroupService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} group`;
+  async remove(id: number) {
+    try {
+      await this.groupModel.deleteGroupById(id);
+      return SuccessResponse.build({ message: messagesResponse.groupDelete });
+    } catch (error) {
+      this.handleException(error);
+    }
   }
 
  private handleException(error: any){

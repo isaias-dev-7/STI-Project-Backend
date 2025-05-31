@@ -22,7 +22,7 @@ export class Subject {
     @OneToMany(
         () => Group,
         group => group.subject,
-        {cascade: ["remove"]}
+        {cascade: ["remove"], nullable: true }
     )
     group: Group[];
 }

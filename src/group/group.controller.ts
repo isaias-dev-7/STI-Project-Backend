@@ -51,7 +51,12 @@ export class GroupController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.groupService.remove(+id);
+  remove(
+    @Param('id', ParseIntPipe) id: number,
+    @Res() res: Response
+  ) {
+    this.utilsService.handleResponse(res, async () => 
+      this.groupService.remove(id)
+    );
   }
 }

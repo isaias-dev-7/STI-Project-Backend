@@ -54,6 +54,26 @@ export class GroupModel {
         }
     }
 
+    async getGroupById(id: number){
+        try {
+            const group = await this.groupRepository.findOneBy({id});
+            if(!group) throw ErrorResponse.build({ code: 404, message: messagesResponse.groupNotFound });
+            return group;
+        } catch (error) {
+            this.handleException('getGroupById',error);
+        }
+    }
+
+    async deleteGroupById(id: number){
+        try {
+            await this.getGroupById(id);
+            await this.groupRepository.delete(id);
+            return true;
+        } catch (error) {
+            this.handleException('deleteGroupById', error);
+        }
+    }
+
     private handleException(description: string, error: any) {
         console.error(`[ERROR] - ${description} - /group/model/user.model.ts`);
         console.error({error});
