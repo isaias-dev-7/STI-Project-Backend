@@ -237,6 +237,20 @@ export class UserModel {
         }
     }
 
+    async getGroupsByUserId(userId: number) {
+        try {
+            const user = await this.userRepository.findOne({
+                where: { id: userId },
+                relations: ["group"]
+            });
+
+            if(!user) throw ErrorResponse.build({code: 404, message: messagesResponse.userNotFound});
+            return user.group;
+        } catch (error) {
+            this.handleException('getGroupsByUserId', error);
+        }
+    }
+
     private handleException(description: string, error: any) {
         console.error(`[ERROR] - ${description} - /user/model/user.model.ts`);
         console.error({error});

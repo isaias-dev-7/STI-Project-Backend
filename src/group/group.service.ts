@@ -5,6 +5,7 @@ import { UtilsService } from '../utils/utils.service';
 import { GroupModel } from './model/group.model';
 import { SuccessResponse } from 'src/common/customResponses/successResponse';
 import { messagesResponse } from 'src/common/messagesResponse';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class GroupService {
@@ -13,23 +14,25 @@ export class GroupService {
     private readonly groupModel: GroupModel
   ){}
 
-  async create(createGroupDto: CreateGroupDto) {
+  async create(createGroupDto: CreateGroupDto, professor: User) {
     try {
-      await this.groupModel.createGroup(createGroupDto);
+      await this.groupModel.createGroup(createGroupDto, professor);
       return SuccessResponse.build({ message: messagesResponse.groupCreate });
     } catch (error) {
       this.handleException(error);
     }
   }
 
-  findAll() {
-    return `This action returns all group`;
+  async findAll({ id }: User) {
+    try {
+       const groups = await this.groupModel.getAllGroup(id);
+       return SuccessResponse.build({data: groups});
+    } catch (error) {
+       this.handleException(error);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} group`;
-  }
-
+  
   update(id: number, updateGroupDto: UpdateGroupDto) {
     return `This action updates a #${id} group`;
   }

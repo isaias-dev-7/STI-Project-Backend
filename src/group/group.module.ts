@@ -7,13 +7,15 @@ import { UtilsModule } from 'src/utils/utils.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { GroupModel } from './model/group.model';
 import { SubjectModule } from 'src/subject/subject.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Group]),
     UtilsModule,
     AuthModule,
-    SubjectModule
+    SubjectModule,
+    UserModule
   ],
   controllers: [GroupController],
   providers: [
