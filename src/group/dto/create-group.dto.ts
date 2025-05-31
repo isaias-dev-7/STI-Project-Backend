@@ -14,4 +14,8 @@ export class CreateGroupDto {
     @IsNumber()
     @IsDefined()
     idSubject: number;
+
+    @IsNumber()
+    @IsDefined()
+    idProfessor: number;
 }
