@@ -7,6 +7,7 @@ import { SuccessResponse } from 'src/common/customResponses/successResponse';
 import { messagesResponse } from 'src/common/messagesResponse';
 import { User } from 'src/user/entities/user.entity';
 import { ErrorResponse } from 'src/common/customResponses/errorResponse';
+import { EnrollGroupDto } from './dto/enrroll-group.dto';
 
 @Injectable()
 export class GroupService {
@@ -48,6 +49,15 @@ export class GroupService {
     try {
       await this.groupModel.deleteGroupById(id);
       return SuccessResponse.build({ message: messagesResponse.groupDelete });
+    } catch (error) {
+      this.handleException(error);
+    }
+  }
+
+  async enrollStudent({ key }: EnrollGroupDto, student: User){
+    try {
+      await this.groupModel.enrollStudentByKey(key, student);
+      return SuccessResponse.build({message: messagesResponse.enrolled });
     } catch (error) {
       this.handleException(error);
     }
