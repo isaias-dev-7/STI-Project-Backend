@@ -8,6 +8,7 @@ import { Auth } from 'src/auth/decorators/auth.decorator';
 import { roleEnum } from 'src/common/enums/roleEnum';
 import { GetUser } from 'src/auth/decorators/getUser.decorator';
 import { User } from 'src/user/entities/user.entity';
+import { EnrollGroupDto } from './dto/enrroll-group.dto';
 
 @Controller('group')
 export class GroupController {
@@ -26,6 +27,18 @@ export class GroupController {
     this.utilsService.handleResponse(res, async () => 
       this.groupService.create(createGroupDto, professor)
     );
+  }
+
+  @Post('/enroll')
+  @Auth(roleEnum.ESTUDIANTE)
+  enroll(
+    @GetUser() student: User,
+    @Body() body: EnrollGroupDto,
+    @Res() res: Response
+  ) {
+    this.utilsService.handleResponse(res, async () => 
+      this.groupService.enrollStudent(body, student)
+    )
   }
 
   @Get()

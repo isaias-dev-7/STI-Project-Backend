@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Group } from "../entities/group.entity";
@@ -7,7 +7,6 @@ import { SubjectModel } from "../../subject/model/subject.model";
 import { ErrorResponse } from "../../common/customResponses/errorResponse";
 import { messagesResponse } from "../../common/messagesResponse";
 import { UserModel } from "src/user/model/user.model";
-import { roleEnum } from "src/common/enums/roleEnum";
 import { User } from "src/user/entities/user.entity";
 import { UpdateGroupDto } from "../dto/update-group.dto";
 
@@ -71,6 +70,24 @@ export class GroupModel {
             return true;
         } catch (error) {
             this.handleException('deleteGroupById', error);
+        }
+    }
+
+    async enrollStudentByKey(key: string, student: User){
+        try {
+            const group = await this.groupRepository.findOne({
+                where: { key },
+                relations: ['user']
+            });
+            if(!group) throw ErrorResponse.build({
+                code: 400,
+                message: messagesResponse.invalidKey
+            });
+            group.user = [...group.user, student];
+            await this.groupRepository.save(group);
+            return true;
+        } catch (error) {
+            this.handleException('enrollStudentBykey', error);
         }
     }
 
