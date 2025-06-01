@@ -77,21 +77,21 @@ export class SeedService {
 
             users.forEach( u => {
                 u.password = bcryptjs.hashSync(u.password,10);
-                usersDb.push(this.userRepository.create({createAt, ...u}));
+                usersDb.push(this.userRepository.create({...u, createAt, active: true}));
                 createAt++;
             });
             await this.userRepository.save(usersDb);
 
             students.forEach( u => {
                 u.password = bcryptjs.hashSync(u.password,10);
-                usersDbE.push(this.userRepository.create({createAt, ...u}));
+                usersDbE.push(this.userRepository.create({createAt,active: true, ...u}));
                 createAt++;
             });
             await this.userRepository.save(usersDbE);
 
             professors.forEach( p => {
                 p.password = bcryptjs.hashSync(p.password,10);
-                usersDbP.push(this.userRepository.create({createAt, ...p}));
+                usersDbP.push(this.userRepository.create({createAt, active: true, ...p}));
                 createAt++;
             });
             await this.userRepository.save(usersDbP);
