@@ -22,4 +22,12 @@ export class AuthController {
        this.authService.login(login)
     )
   }
+
+  @Post('/test')
+  test(
+    @Body() message: {message: string},
+    @Res() res: Response
+  ){
+    return;
+  }
 }

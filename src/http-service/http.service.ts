@@ -4,6 +4,8 @@ import { PathAIEnum } from "../common/enums/pathAI.enum";
 import { firstValueFrom } from "rxjs";
 import { ISendMessage } from "../common/interfaces/sendMessage.interface";
 import { UtilsService } from "../utils/utils.service";
+import { ErrorResponse } from "src/common/customResponses/errorResponse";
+import { messagesResponse } from "src/common/messagesResponse";
 
 @Injectable()
 export class HttpService {
@@ -12,7 +14,7 @@ export class HttpService {
         private readonly utilsService: UtilsService
     ){}
 
-    async requestHttp(url: PathAIEnum, body: ISendMessage){
+    async requestHttp(url: PathAIEnum, body: ISendMessage) {
         try {
             const response = await firstValueFrom(
                 this.http.post<{ message: string }>(url, body)
@@ -21,7 +23,11 @@ export class HttpService {
 
             return data;
         } catch (error) {
-            console.log(error.code)
+            if (error.code == "ECONNABORTED")
+                throw ErrorResponse.build({
+                    message: messagesResponse.chatBotUnavalible
+                });
+
             this.handleException(error);
         }
     }
