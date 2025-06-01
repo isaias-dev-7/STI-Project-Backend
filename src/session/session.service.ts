@@ -1,26 +1,65 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSessionDto } from './dto/create-session.dto';
 import { UpdateSessionDto } from './dto/update-session.dto';
+import { UtilsService } from '../utils/utils.service';
+import { SessionModel } from './model/session.model';
+import { SuccessResponse } from 'src/common/customResponses/successResponse';
+import { messagesResponse } from 'src/common/messagesResponse';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class SessionService {
-  create(createSessionDto: CreateSessionDto) {
-    return 'This action adds a new session';
+  constructor(
+    private readonly utilsService: UtilsService,
+    private readonly sessionModel: SessionModel
+  ){}
+
+  async create(createSessionDto: CreateSessionDto, user: User) {
+    try {
+      await this.sessionModel.createSession(createSessionDto, user);
+      return SuccessResponse.build({ message: messagesResponse.sessionCreated });
+    } catch (error) {
+      this.handleException(error);
+    }
   }
 
-  findAll() {
-    return `This action returns all session`;
+  async findAll(user: User) {
+    try {
+      const sessions = await this.sessionModel.getAllSession(user);
+      return SuccessResponse.build({ data: sessions });
+    } catch (error) {
+      this.handleException(error);
+    }
   }
 
   findOne(id: number) {
     return `This action returns a #${id} session`;
   }
 
-  update(id: number, updateSessionDto: UpdateSessionDto) {
-    return `This action updates a #${id} session`;
+  async update(
+    id: number,
+    updateSessionDto: UpdateSessionDto
+  ) {
+    try {
+      await this.sessionModel.updateSessionById(id, updateSessionDto);
+      return SuccessResponse.build({ message: messagesResponse.sessionUpdated });
+    } catch (error) {
+      this.handleException(error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} session`;
+  async remove(id: number) {
+    try {
+      await this.sessionModel.deleteSessioById(id);
+      return SuccessResponse.build({ message: messagesResponse.sessionDelete });
+    } catch (error) {
+      this.handleException(error);
+    }
   }
+
+ private handleException(error: any){
+        console.error(`[ERROR] - handleException - session.service.ts`);
+        console.error({ error });
+        throw this.utilsService.handleError(error);
+      }
 }

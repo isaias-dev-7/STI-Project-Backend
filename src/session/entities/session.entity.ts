@@ -1,6 +1,5 @@
-import { Student } from "src/student/entities/student.entity";
 import { Subject } from "src/subject/entities/subject.entity";
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Session {
@@ -16,11 +15,10 @@ export class Session {
     @Column({ type: 'numeric', nullable: false, unique: true })
     numberSession: number;
 
-    @ManyToMany(
+    @ManyToOne(
         () => Subject,
         subject => subject.session,
         {onDelete: 'CASCADE'}
     )
-    @JoinTable()
-    subject: Student[];
+    subject: Subject;
 }

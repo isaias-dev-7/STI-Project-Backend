@@ -7,13 +7,15 @@ import { UtilsModule } from 'src/utils/utils.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { SubjectModule } from 'src/subject/subject.module';
 import { SessionModel } from './model/session.model';
+import { ProfessorModule } from 'src/professor/professor.module';
 
 @Module({
   imports:[
     TypeOrmModule.forFeature([Session]),
     UtilsModule,
     AuthModule,
-    SubjectModule
+    SubjectModule,
+    ProfessorModule
   ],
   controllers: [SessionController],
   providers: [

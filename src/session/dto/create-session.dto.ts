@@ -13,8 +13,4 @@ export class CreateSessionDto {
     @IsDefined()
     @IsNumber()
     numberSession: number;
-
-    @IsDefined()
-    @IsNumber()
-    subjectId: number;
 }
