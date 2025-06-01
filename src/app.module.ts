@@ -22,6 +22,7 @@ import { GroupModule } from './group/group.module';
 import { Group } from './group/entities/group.entity';
 import { SessionModule } from './session/session.module';
 import { Session } from './session/entities/session.entity';
+import { ResourceModule } from './resource/resource.module';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { Session } from './session/entities/session.entity';
     SeedModule,
     GroupModule,
     SessionModule,
+    ResourceModule,
   ],
   controllers: [],
   providers: [],

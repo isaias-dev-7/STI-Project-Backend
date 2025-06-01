@@ -11,7 +11,7 @@ import { UtilsModule } from '../utils/utils.module';
             imports:[ConfigModule],
             useFactory: async (configService: ConfigService) => ({
                 baseURL: configService.get("CHATBOT_URL"),
-                timeout: 5000,
+                timeout: 30000,
                 headers: {
                     'Content-Type': 'application/json'
                 }
