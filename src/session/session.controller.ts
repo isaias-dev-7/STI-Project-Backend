@@ -1,34 +1,64 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, ParseIntPipe } from '@nestjs/common';
 import { SessionService } from './session.service';
 import { CreateSessionDto } from './dto/create-session.dto';
 import { UpdateSessionDto } from './dto/update-session.dto';
+import { Response } from 'express';
+import { UtilsService } from '../utils/utils.service';
+import { GetUser } from '../auth/decorators/getUser.decorator';
+import { User } from '../user/entities/user.entity';
+import { Auth } from '../auth/decorators/auth.decorator';
+import { roleEnum } from '../common/enums/roleEnum';
 
 @Controller('session')
 export class SessionController {
-  constructor(private readonly sessionService: SessionService) {}
+  constructor(
+    private readonly sessionService: SessionService,
+    private readonly utilsService: UtilsService
+  ) {}
 
   @Post()
-  create(@Body() createSessionDto: CreateSessionDto) {
-    return this.sessionService.create(createSessionDto);
+  @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
+  create(
+    @Body() createSessionDto: CreateSessionDto,
+    @GetUser() user: User,
+    @Res() res: Response
+  ) {
+    this.utilsService.handleResponse(res, async () => 
+      this.sessionService.create(createSessionDto, user)
+    );
   }
 
   @Get()
-  findAll() {
-    return this.sessionService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.sessionService.findOne(+id);
+  @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
+  findAll(
+    @GetUser() user: User,
+    @Res() res: Response
+  ) {
+    this.utilsService.handleResponse(res, async () => 
+      this.sessionService.findAll(user)
+    );
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSessionDto: UpdateSessionDto) {
-    return this.sessionService.update(+id, updateSessionDto);
+  @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateSessionDto: UpdateSessionDto,
+    @Res() res: Response
+  ) {
+    this.utilsService.handleResponse(res, async () => 
+      this.sessionService.update(id, updateSessionDto)
+    );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.sessionService.remove(+id);
+  @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
+  remove(
+    @Param('id', ParseIntPipe) id: number,
+    @Res() res: Response
+  ) {
+    this.utilsService.handleResponse(res, async () => 
+      this.sessionService.remove(id)
+    );
   }
 }

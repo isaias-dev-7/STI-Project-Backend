@@ -8,6 +8,7 @@ import { ErrorResponse } from "../../common/customResponses/errorResponse";
 import { messagesResponse } from "../../common/messagesResponse";
 import * as fs from 'fs-extra';
 import { ProfessorModel } from "../../professor/model/professor.model";
+import { Professor } from "src/professor/entities/professor.entity";
 
 @Injectable()
 export class SubjectModel {
@@ -103,6 +104,19 @@ export class SubjectModel {
             return true;
         } catch (error) {
             this.handleException('deleteSubjectById', error);
+        }
+    }
+
+    async getSubjectByProfessor(professor: Professor){
+        try {
+            const subject = await this.subjectRepository.findOneBy({ professor });
+            if(!subject) throw ErrorResponse.build({ 
+                code: 404,
+                message: messagesResponse.subjectNotFound 
+            });
+            return subject;
+        } catch (error) {
+            this.handleException('getSubjectByUser', error);
         }
     }
 
