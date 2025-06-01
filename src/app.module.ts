@@ -20,6 +20,8 @@ import { Chat } from './chatbot/entities/chat.entity';
 import { SeedModule } from './seed/seed.module';
 import { GroupModule } from './group/group.module';
 import { Group } from './group/entities/group.entity';
+import { SessionModule } from './session/session.module';
+import { Session } from './session/entities/session.entity';
 
 @Module({
   imports: [
@@ -40,7 +42,8 @@ import { Group } from './group/entities/group.entity';
         Professor,
         Subject,
         Chat, 
-        Group
+        Group,
+        Session
       ],
       synchronize: true
     }),
@@ -55,6 +58,7 @@ import { Group } from './group/entities/group.entity';
     ChatbotModule,
     SeedModule,
     GroupModule,
+    SessionModule,
   ],
   controllers: [],
   providers: [],

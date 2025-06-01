@@ -1,6 +1,7 @@
-import { Group } from "src/group/entities/group.entity";
+import { Group } from "../../group/entities/group.entity";
 import { Professor } from "../../professor/entities/professor.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Session } from "../../session/entities/session.entity";
 
 @Entity()
 export class Subject {
@@ -25,4 +26,11 @@ export class Subject {
         {cascade: ["remove"], nullable: true }
     )
     group: Group[];
+
+    @ManyToMany(
+    () => Session,
+    session => session.subject,
+    {cascade: ["remove"], nullable: true }
+   )
+   session: Session[];
 }
