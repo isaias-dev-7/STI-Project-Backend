@@ -47,6 +47,14 @@ export class ChatModel {
         }
     }
 
+    async getMessagesByUsert(user: User){
+        try {
+            
+        } catch (error) {
+            
+        }
+    }
+
     private handleException(description: string, error: any) {
         console.error(`[ERROR] - ${description} - /chatbot/model/chat.model.ts`);
         console.error({error});

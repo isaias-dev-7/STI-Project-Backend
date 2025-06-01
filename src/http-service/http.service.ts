@@ -21,6 +21,7 @@ export class HttpService {
 
             return data;
         } catch (error) {
+            console.log(error.code)
             this.handleException(error);
         }
     }
