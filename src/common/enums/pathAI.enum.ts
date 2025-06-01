@@ -1,3 +1,3 @@
 export enum PathAIEnum {
-    CHAT = 'chatbot/test'
+    CHAT = 'auth/test'
 }
