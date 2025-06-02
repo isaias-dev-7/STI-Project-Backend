@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, Res } from "@nestjs/common";
 import { ChatBotService } from "./chatbot.service";
 import { UtilsService } from "../utils/utils.service";
 import { GetUser } from "../auth/decorators/getUser.decorator";
@@ -7,6 +7,7 @@ import { User } from "../user/entities/user.entity";
 import { ISendMessage } from "src/common/interfaces/sendMessage.interface";
 import { Auth } from "../auth/decorators/auth.decorator";
 import { roleEnum } from "../common/enums/roleEnum";
+import { PaginDto } from "src/common/dto/paginDto";
 
 @Controller('chatbot')
 export class ChatBotController {
@@ -24,6 +25,18 @@ export class ChatBotController {
     ){
         this.utilsService.handleResponse(res, async () => 
             this.chatBotService.send(body, user)
+        );
+    }
+
+    @Get()
+    @Auth(roleEnum.ESTUDIANTE)
+    getChat(
+        @Query() paginDto: PaginDto,
+        @GetUser() user: User,
+        @Res() res: Response
+    ){
+        this.utilsService.handleResponse(res, async () => 
+            this.chatBotService.getMessages(user, paginDto)
         );
     }
 }
