@@ -4,6 +4,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { UtilsService } from '../utils/utils.service';
 import { Response } from 'express';
 import { LoginDto } from './dto/login.dto';
+import { ISendMessage } from 'src/common/interfaces/sendMessage.interface';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -25,9 +26,9 @@ export class AuthController {
 
   @Post('/test')
   test(
-    @Body() message: {message: string},
+    @Body() body: ISendMessage,
     @Res() res: Response
   ){
-    return;
+    return res.status(200).json(body);
   }
 }

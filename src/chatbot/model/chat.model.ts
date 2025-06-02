@@ -10,6 +10,7 @@ import { StudentModel } from "../../student/model/student.model";
 import * as moment from "moment";
 import { ErrorResponse } from "../../common/customResponses/errorResponse";
 import { messagesResponse } from "../../common/messagesResponse";
+import { PaginDto } from "src/common/dto/paginDto";
 
 @Injectable()
 export class ChatModel {
@@ -30,7 +31,7 @@ export class ChatModel {
             if(!response) throw ErrorResponse.build({
                 message: messagesResponse.chatBotUnavalible
             });
-
+            
             const createAtMessageBot = moment().valueOf();
             const chat = this.chatRepository.create({
                 student: studentDb,
@@ -47,11 +48,19 @@ export class ChatModel {
         }
     }
 
-    async getMessagesByUsert(user: User){
+    async getMessagesByUser(user: User, {limit = 10 , page = 1}: PaginDto){
         try {
-            
+            const student = await this.studentModel.getEstudentByUser(user);
+            const [chats, total] = await this.chatRepository.findAndCount({
+                skip: (page - 1) * limit,
+                take: limit,
+                order: { createAtMessageStudent: "DESC" },
+                where: { student }
+            });
+
+            return {chats, total, page, limit, totalPages: Math.ceil(total/limit)};
         } catch (error) {
-            
+            this.handleException('getmessagwesByUser', error);
         }
     }
 
