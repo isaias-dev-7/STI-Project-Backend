@@ -102,7 +102,7 @@ export class SeedService {
             await this.studentRepository.save(studentDb);
 
             usersDbP.forEach((v, i) => {
-                professorDb.push(this.professorRepository.create({user: v, ...professors[i]}));
+                professorDb.push(this.professorRepository.create({user: v, subject: subjectsDb[0], ...professors[i]}));
             });
             await this.professorRepository.save(professorDb);
 
