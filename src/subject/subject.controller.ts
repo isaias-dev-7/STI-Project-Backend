@@ -31,6 +31,7 @@ export class SubjectController {
   }
 
   @Get()
+  @Auth(roleEnum.ADMIN, roleEnum.ESTUDIANTE, roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
   findAll(
     @Res() res: Response
   ){

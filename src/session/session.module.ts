@@ -3,11 +3,11 @@ import { SessionService } from './session.service';
 import { SessionController } from './session.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Session } from './entities/session.entity';
-import { UtilsModule } from 'src/utils/utils.module';
-import { AuthModule } from 'src/auth/auth.module';
-import { SubjectModule } from 'src/subject/subject.module';
+import { UtilsModule } from '../utils/utils.module';
+import { AuthModule } from '../auth/auth.module';
+import { SubjectModule } from '../subject/subject.module';
 import { SessionModel } from './model/session.model';
-import { ProfessorModule } from 'src/professor/professor.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports:[
@@ -15,7 +15,7 @@ import { ProfessorModule } from 'src/professor/professor.module';
     UtilsModule,
     AuthModule,
     SubjectModule,
-    ProfessorModule
+    UserModule
   ],
   controllers: [SessionController],
   providers: [

@@ -29,6 +29,6 @@ export class AuthController {
     @Body() body: ISendMessage,
     @Res() res: Response
   ){
-    return res.status(200).json(body);
+    return res.status(200).json({message: "El chatbot no esta disponible en estos momentos disculpe los problemas ocasionados"});
   }
 }

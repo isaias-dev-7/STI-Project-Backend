@@ -7,7 +7,7 @@ import { ChatModel } from './model/chat.model';
 import { AuthModule } from '../auth/auth.module';
 import { ChatBotController } from './chatbot.controller';
 import { HttpServiceModule } from '../http-service/http-service.module';
-import { StudentModule } from '../student/student.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
     imports: [
@@ -15,7 +15,7 @@ import { StudentModule } from '../student/student.module';
         UtilsModule,
         AuthModule,
         HttpServiceModule,
-        StudentModule
+        UserModule
     ],
     controllers:[ChatBotController],
     providers: [

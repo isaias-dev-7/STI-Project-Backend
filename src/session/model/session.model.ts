@@ -4,18 +4,18 @@ import { Session } from "../entities/session.entity";
 import { Repository } from "typeorm";
 import { CreateSessionDto } from "../dto/create-session.dto";
 import { SubjectModel } from "../../subject/model/subject.model";
-import { ErrorResponse } from "src/common/customResponses/errorResponse";
-import { messagesResponse } from "src/common/messagesResponse";
-import { User } from "src/user/entities/user.entity";
-import { ProfessorModel } from "src/professor/model/professor.model";
+import { ErrorResponse } from "../../common/customResponses/errorResponse";
+import { messagesResponse } from "../../common/messagesResponse";
+import { User } from "../../user/entities/user.entity";
 import { UpdateSessionDto } from "../dto/update-session.dto";
+import { UserModel } from "../../user/model/user.model";
 
 @Injectable()
 export class SessionModel {
     constructor(
         @InjectRepository(Session) private readonly sessionRepository: Repository<Session>,
         private readonly subjectModel: SubjectModel,
-        private readonly professorModel: ProfessorModel
+        private readonly userModel: UserModel
     ){}
 
     async createSession({name, numberSession, description}: CreateSessionDto, user: User){
@@ -24,7 +24,7 @@ export class SessionModel {
                 code: 400,
                 message: messagesResponse.sessionAlreadyExist
             });
-            const professor = await this.professorModel.getProfessorByUser(user);
+            const { professor }= await this.userModel.getUserbyId(user.id);
             const subject = await this.subjectModel.getSubjectByProfessor(professor);
             const session = this.sessionRepository.create({ name, numberSession, description, subject});
             await this.sessionRepository.save(session);
@@ -36,7 +36,7 @@ export class SessionModel {
 
     async getAllSession(user: User){
         try {
-            const professor = await this.professorModel.getProfessorByUser(user);
+            const { professor }= await this.userModel.getUserbyId(user.id);
             const subject = await this.subjectModel.getSubjectByProfessor(professor);
             const sessions = await this.sessionRepository.find({
                 where: { subject }

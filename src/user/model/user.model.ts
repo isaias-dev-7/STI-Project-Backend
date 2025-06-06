@@ -94,7 +94,10 @@ export class UserModel {
 
     async getUserbyId(id: number){
         try {
-            const userDb = await this.userRepository.findOneBy({id});
+            const userDb = await this.userRepository.findOne({
+                where: { id },
+                relations: ["student", "professor"]
+            });
             if(!userDb) throw ErrorResponse.build({
                 code: 404,
                 message: messagesResponse.userNotFound
@@ -205,9 +208,9 @@ export class UserModel {
             await this.userRepository.delete(id);
 
             if(user.role === roleEnum.ESTUDIANTE)
-                await this.studentModel.deleteStudent(user);
+                await this.studentModel.deleteStudentById(user.student.id);
             if(user.role === roleEnum.PROFESSOR_AUXILIAR || user.role === roleEnum.PROFESSOR_PRINCIPAL)
-                await this.professorModel.deleteProfessor(user);
+                await this.professorModel.deleteProfessor(user.professor.id);
             return true;
         } catch (error) {
             this.handleException('deleteUserbyId', error);

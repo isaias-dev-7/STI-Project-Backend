@@ -6,26 +6,26 @@ import { ISendMessage } from "../../common/interfaces/sendMessage.interface";
 import { User } from "../../user/entities/user.entity";
 import { HttpService } from "../../http-service/http.service";
 import { PathAIEnum } from "../../common/enums/pathAI.enum";
-import { StudentModel } from "../../student/model/student.model";
 import * as moment from "moment";
 import { ErrorResponse } from "../../common/customResponses/errorResponse";
 import { messagesResponse } from "../../common/messagesResponse";
 import { PaginDto } from "src/common/dto/paginDto";
+import { UserModel } from "src/user/model/user.model";
 
 @Injectable()
 export class ChatModel {
     constructor(
         @InjectRepository(Chat) private readonly chatRepository: Repository<Chat>,
         private readonly httpService: HttpService,
-        private readonly studentModel: StudentModel
+        private readonly userModel: UserModel
     ){}
 
     async sendToBot(
         body: ISendMessage,
         user: User
     ){
-        try {
-            const studentDb = await this.studentModel.getEstudentByUser(user);
+        try { 
+        const { student } = await this.userModel.getUserbyId(user.id);
             const createAtMessageStudent = moment().valueOf();
             const response = await this.httpService.requestHttp(PathAIEnum.CHAT, body);
             if(!response) throw ErrorResponse.build({
@@ -34,7 +34,7 @@ export class ChatModel {
             
             const createAtMessageBot = moment().valueOf();
             const chat = this.chatRepository.create({
-                student: studentDb,
+                student,
                 messageBot: response.message,
                 messageStudent: body.message,
                 createAtMessageStudent,
@@ -50,7 +50,7 @@ export class ChatModel {
 
     async getMessagesByUser(user: User, {limit = 10 , page = 1}: PaginDto){
         try {
-            const student = await this.studentModel.getEstudentByUser(user);
+            const { student } = await this.userModel.getUserbyId(user.id);
             const [chats, total] = await this.chatRepository.findAndCount({
                 skip: (page - 1) * limit,
                 take: limit,
