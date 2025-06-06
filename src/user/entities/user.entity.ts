@@ -36,16 +36,14 @@ export class User {
 
     @OneToOne(
         () => Professor,
-        professor => professor.user,
-        { onDelete: 'CASCADE'}
+        professor => professor.user
     )
     @JoinColumn()
     professor: Professor;
 
     @OneToOne(
         () => Student,
-        student => student.user,
-        { onDelete: 'CASCADE'}
+        student => student.user
     )
     @JoinColumn()
     student: Student;

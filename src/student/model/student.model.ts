@@ -48,8 +48,7 @@ export class StudentModel {
     async getLearningStyleByUserId(id: number){
         try {
             const user = await this.userModel.getUserbyId(id);
-            console.log(user)
-            const studentDb = await this.getEstudentByUser(user);
+            const studentDb = await this.getEstudentById(user.student.id);
             return studentDb.learningStyle;
         } catch (error) {
             this.handleException('getLearningStyleByUserId', error);
@@ -57,9 +56,10 @@ export class StudentModel {
 
     }
 
-    async getEstudentByUser(user: User){
+    async getEstudentById(id: number){
         try {
-             const studentDb = await this.studentRepository.findOneBy({ user });
+             const studentDb = await this.studentRepository.findOneBy({ id });
+             console.log(studentDb)
              if(!studentDb) throw SuccessResponse.build({
                 message: messagesResponse.userNotFound
              });
@@ -70,9 +70,9 @@ export class StudentModel {
         }
     }
 
-    async deleteStudent(user: User) {
+    async deleteStudentById(id: number) {
         try {
-            const studentDb = await this.getEstudentByUser(user);
+            const studentDb = await this.getEstudentById(id);
             await this.studentRepository.delete({id: studentDb.id});
             return true;
         } catch (error) {

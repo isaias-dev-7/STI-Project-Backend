@@ -41,9 +41,9 @@ export class ProfessorModel {
         }
     }
 
-    async getProfessorByUser(user: User) {
+    async getProfessorById(id: number) {
         try {
-            const professorDb = await this.professorRepository.findOneBy({ user });
+            const professorDb = await this.professorRepository.findOneBy({ id });
             if (!professorDb) throw SuccessResponse.build({
                 message: messagesResponse.userNotFound
             });
@@ -54,9 +54,9 @@ export class ProfessorModel {
         }
     }
 
-    async deleteProfessor(user: User) {
+    async deleteProfessor(id: number) {
         try {
-            const professorDb = await this.getProfessorByUser(user);
+            const professorDb = await this.getProfessorById(id);
             await this.professorRepository.delete({id: professorDb.id});
             return true;
         } catch (error) {
