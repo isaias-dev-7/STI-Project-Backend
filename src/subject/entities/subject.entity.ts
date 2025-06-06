@@ -2,6 +2,7 @@ import { Group } from "../../group/entities/group.entity";
 import { Professor } from "../../professor/entities/professor.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Session } from "../../session/entities/session.entity";
+import { Resource } from "src/resource/entities/resource.entity";
 
 @Entity()
 export class Subject {
@@ -23,14 +24,21 @@ export class Subject {
     @OneToMany(
         () => Group,
         group => group.subject,
-        {cascade: ["remove"], nullable: true }
+        {cascade: ["remove"]}
     )
     group: Group[];
 
     @OneToMany(
-    () => Session,
-    session => session.subject,
-    {cascade: ["remove"], nullable: true }
-   )
-   session: Session[];
+        () => Session,
+        session => session.subject,
+        { cascade: ["remove"] }
+    )
+    session: Session[];
+
+    @OneToMany(
+        () => Resource,
+        resource => resource.subject,
+        { cascade: ["remove"] }
+    )
+    resource: Resource[];
 }

@@ -23,7 +23,7 @@ import { Group } from './group/entities/group.entity';
 import { SessionModule } from './session/session.module';
 import { Session } from './session/entities/session.entity';
 import { ResourceModule } from './resource/resource.module';
-import { ContentModule } from './content/content.module';
+import { Resource } from './resource/entities/resource.entity';
 
 @Module({
   imports: [
@@ -45,7 +45,8 @@ import { ContentModule } from './content/content.module';
         Subject,
         Chat, 
         Group,
-        Session
+        Session,
+        Resource
       ],
       synchronize: true
     }),
@@ -62,7 +63,6 @@ import { ContentModule } from './content/content.module';
     GroupModule,
     SessionModule,
     ResourceModule,
-    ContentModule,
   ],
   controllers: [],
   providers: [],

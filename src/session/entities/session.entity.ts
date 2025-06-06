@@ -1,5 +1,6 @@
+import { Resource } from "src/resource/entities/resource.entity";
 import { Subject } from "src/subject/entities/subject.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Session {
@@ -21,4 +22,10 @@ export class Session {
         {onDelete: 'CASCADE'}
     )
     subject: Subject;
+
+    @OneToMany(
+        () => Resource,
+        resource => resource.session
+    )
+    resource: Resource[];
 }
