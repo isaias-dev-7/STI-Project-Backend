@@ -16,9 +16,9 @@ export class GroupService {
     private readonly groupModel: GroupModel
   ){}
 
-  async create(createGroupDto: CreateGroupDto, professor: User) {
+  async create(createGroupDto: CreateGroupDto, user: User) {
     try {
-      await this.groupModel.createGroup(createGroupDto, professor);
+      await this.groupModel.createGroup(createGroupDto, user);
       return SuccessResponse.build({ message: messagesResponse.groupCreate });
     } catch (error) {
       this.handleException(error);
@@ -54,9 +54,9 @@ export class GroupService {
     }
   }
 
-  async enrollStudent({ key }: EnrollGroupDto, student: User){
+  async enrollStudent({ key }: EnrollGroupDto, user: User){
     try {
-      await this.groupModel.enrollStudentByKey(key, student);
+      await this.groupModel.enrollStudentByKey(key, user);
       return SuccessResponse.build({message: messagesResponse.enrolled });
     } catch (error) {
       this.handleException(error);
