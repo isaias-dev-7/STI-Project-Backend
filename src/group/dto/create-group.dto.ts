@@ -10,8 +10,4 @@ export class CreateGroupDto {
     @IsString()
     @Length(4,8)
     name: string;
-
-    @IsNumber()
-    @IsDefined()
-    idSubject: number;
 }

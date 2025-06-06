@@ -21,23 +21,23 @@ export class GroupController {
   @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
   create(
     @Body() createGroupDto: CreateGroupDto,
-    @GetUser() professor: User,
+    @GetUser() user: User,
     @Res() res: Response
   ) {
     this.utilsService.handleResponse(res, async () => 
-      this.groupService.create(createGroupDto, professor)
+      this.groupService.create(createGroupDto, user)
     );
   }
 
   @Post('/enroll')
   @Auth(roleEnum.ESTUDIANTE)
   enroll(
-    @GetUser() student: User,
+    @GetUser() user: User,
     @Body() body: EnrollGroupDto,
     @Res() res: Response
   ) {
     this.utilsService.handleResponse(res, async () => 
-      this.groupService.enrollStudent(body, student)
+      this.groupService.enrollStudent(body, user)
     )
   }
 
@@ -53,6 +53,7 @@ export class GroupController {
   }
 
   @Patch(':id')
+  @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
   update(
     @Param('id', ParseIntPipe) id: number, 
     @Body() updateGroupDto: UpdateGroupDto,
@@ -64,6 +65,7 @@ export class GroupController {
   }
 
   @Delete(':id')
+  @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
   remove(
     @Param('id', ParseIntPipe) id: number,
     @Res() res: Response

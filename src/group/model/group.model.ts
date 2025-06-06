@@ -18,16 +18,17 @@ export class GroupModel {
         private readonly userModel: UserModel
     ){}
 
-    async createGroup({key, name, idSubject}: CreateGroupDto, professor: User){
+    async createGroup({key, name}: CreateGroupDto, user: User){
         try {
-            const subject = await this.subjectModel.getSubjectById(idSubject);
+            const { professor } = await this.userModel.getUserbyId(user.id);
+            const subject = await this.subjectModel.getSubjectByProfessor(professor);
            
             if(!subject) throw ErrorResponse.build({
                 code: 404,
                 message: messagesResponse.subjectNotFound
             });
             
-            const group = this.groupRepository.create({key, name, subject, user: [professor]});
+            const group = this.groupRepository.create({key, name, subject, user: [user]});
             await this.groupRepository.save(group);
             return true; 
         } catch (error) {
@@ -73,7 +74,7 @@ export class GroupModel {
         }
     }
 
-    async enrollStudentByKey(key: string, student: User){
+    async enrollStudentByKey(key: string, user: User){
         try {
             const group = await this.groupRepository.findOne({
                 where: { key },
@@ -83,7 +84,7 @@ export class GroupModel {
                 code: 400,
                 message: messagesResponse.invalidKey
             });
-            group.user = [...group.user, student];
+            group.user = [...group.user, user];
             await this.groupRepository.save(group);
             return true;
         } catch (error) {
