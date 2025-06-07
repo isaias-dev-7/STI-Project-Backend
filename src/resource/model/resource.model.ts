@@ -5,9 +5,14 @@ import { Repository } from "typeorm";
 import { CreateResourceDto } from "../dto/create-resource.dto";
 import { UtilsService } from "../../utils/utils.service";
 import { SessionModel } from "../../session/model/session.model";
-import { User } from "src/user/entities/user.entity";
-import { UserModel } from "src/user/model/user.model";
-import { SubjectModel } from "src/subject/model/subject.model";
+import { User } from "../../user/entities/user.entity";
+import { UserModel } from "../../user/model/user.model";
+import { SubjectModel } from "../../subject/model/subject.model";
+import { messagesResponse } from "../../common/messagesResponse";
+import { ErrorResponse } from "../../common/customResponses/errorResponse";
+import { UpdateResourceDto } from "../dto/update-resource.dto";
+import { PaginDto } from "../../common/dto/paginDto";
+import * as fs from 'fs-extra';
 
 @Injectable()
 export class ResourceModel {
@@ -36,6 +41,53 @@ export class ResourceModel {
             return true;
         } catch (error) {
             this.handleException("createResource", error);
+        }
+    }
+
+    async getResourceById(id: number){
+        try {
+            const resourceDb = await this.resourceRepository.findOneBy({id});
+            if(!resourceDb) throw ErrorResponse.build({code: 404, message: messagesResponse.resourceNotFound });
+            return resourceDb;
+        } catch (error) {
+            this.handleException('getResourceById', error);
+        }
+    }
+
+    async updateResourceById(id: number, updateResourceDto: UpdateResourceDto) {
+        try {
+            await this.getResourceById(id);
+            await this.resourceRepository.update(id, { ...updateResourceDto });
+            return true;
+        } catch (error) {
+            this.handleException('updateResourceById', error);
+        }
+    }
+
+    async getAllResources(user: User, {limit = 10 , page = 1}: PaginDto){
+        try {
+            const { professor } = await this.userModel.getUserbyId(user.id);
+            const subject = await this.subjectModel.getSubjectByProfessor(professor);
+            const [resources, total] = await this.resourceRepository.findAndCount({
+                skip: (page - 1) * limit,
+                take: limit,
+                where: { subject }
+            });
+
+            return {resources, total, page, limit, totalPages: Math.ceil(total/limit)};
+        } catch (error) {
+            this.handleException('getAllResources', error);
+        }
+    }
+
+    async deleteResourceById(id: number){
+        try {
+           const resourceDb = await this.getResourceById(id);
+           if(await fs.pathExists(resourceDb.url)) await fs.remove(resourceDb.url);
+           await this.resourceRepository.delete(id);
+           return true;
+        } catch (error) {
+            this.handleException('deleteResourceById',error);
         }
     }
 

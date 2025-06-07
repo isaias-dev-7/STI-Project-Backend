@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Res, ParseIntPipe, Query } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ResourceService } from './resource.service';
 import { CreateResourceDto } from './dto/create-resource.dto';
@@ -9,6 +9,7 @@ import { roleEnum } from '../common/enums/roleEnum';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { GetUser } from 'src/auth/decorators/getUser.decorator';
 import { User } from 'src/user/entities/user.entity';
+import { PaginDto } from 'src/common/dto/paginDto';
 
 @Controller('resource')
 export class ResourceController {
@@ -34,22 +35,37 @@ export class ResourceController {
   }
 
   @Get()
-  findAll() {
-    return this.resourceService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.resourceService.findOne(+id);
+  @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
+  findAll(
+    @GetUser() user: User,
+    @Query() paginDto: PaginDto,
+    @Res() res: Response
+  ) {
+    this.utilsService.handleResponse(res, async () => 
+      this.resourceService.findAll(user, paginDto)
+    );
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateResourceDto: UpdateResourceDto) {
-    return this.resourceService.update(+id, updateResourceDto);
+  @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
+  update(
+    @Param('id', ParseIntPipe) id: number, 
+    @Body() updateResourceDto: UpdateResourceDto,
+    @Res() res: Response
+  ) {
+    this.utilsService.handleResponse(res, async () => 
+      this.resourceService.update(id, updateResourceDto)
+    );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.resourceService.remove(+id);
+  @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
+  remove(
+    @Param('id', ParseIntPipe) id: number,
+    @Res() res: Response
+  ) {
+    this.utilsService.handleResponse(res, async () => 
+      this.resourceService.remove(id)
+    );
   }
 }

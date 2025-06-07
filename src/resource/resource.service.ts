@@ -7,6 +7,7 @@ import { ErrorResponse } from 'src/common/customResponses/errorResponse';
 import { messagesResponse } from 'src/common/messagesResponse';
 import { SuccessResponse } from 'src/common/customResponses/successResponse';
 import { User } from 'src/user/entities/user.entity';
+import { PaginDto } from 'src/common/dto/paginDto';
 
 @Injectable()
 export class ResourceService {
@@ -29,20 +30,31 @@ export class ResourceService {
     }
   }
 
-  findAll() {
-    return `This action returns all resource`;
+  async findAll(user: User, paginDto: PaginDto) {
+    try {
+      const {...rest} = await this.resourceModel.getAllResources(user, paginDto);
+      return SuccessResponse.build({data: { ...rest }});
+    } catch (error) {
+      this.handleException(error);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} resource`;
+  async update(id: number, updateResourceDto: UpdateResourceDto) {
+    try {
+       await this.resourceModel.updateResourceById(id, updateResourceDto);
+       return SuccessResponse.build({ message: messagesResponse.resourceUpdated });
+    } catch (error) {
+      this.handleException(error);
+    }
   }
 
-  update(id: number, updateResourceDto: UpdateResourceDto) {
-    return `This action updates a #${id} resource`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} resource`;
+  async remove(id: number) {
+    try {
+      await this.resourceModel.deleteResourceById(id);
+      return SuccessResponse.build({ message: messagesResponse.resourceDelete });
+    } catch (error) {
+      this.handleException(error);
+    }
   }
 
   private handleException(error: any){
