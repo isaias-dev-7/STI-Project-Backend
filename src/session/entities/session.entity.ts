@@ -1,6 +1,7 @@
-import { Resource } from "src/resource/entities/resource.entity";
-import { Subject } from "src/subject/entities/subject.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { LearningPath } from "../../learning-path/entities/learning-path.entity";
+import { Resource } from "../../resource/entities/resource.entity";
+import { Subject } from "../../subject/entities/subject.entity";
+import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Session {

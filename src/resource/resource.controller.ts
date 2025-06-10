@@ -46,6 +46,25 @@ export class ResourceController {
     );
   }
 
+  @Get(':id')
+  @Auth(roleEnum.ESTUDIANTE)
+  findOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Res() res: Response
+  ){
+    this.utilsService.handleResponse(res, async () => 
+      this.resourceService.findOne(id)
+    );
+  }
+
+  @Get('/content/:id')
+    async image(
+      @Param('id', ParseIntPipe) id: number,
+      @Res() res: Response
+    ){
+        return this.resourceService.getResourceContent(id, res);
+    }
+
   @Patch(':id')
   @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
   update(

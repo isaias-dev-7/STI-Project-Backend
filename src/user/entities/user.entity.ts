@@ -1,9 +1,10 @@
-import { Group } from "src/group/entities/group.entity";
+import { Group } from "../../group/entities/group.entity";
 import { facultadEnum } from "../../common/enums/facultadEnum";
 import { roleEnum } from "../../common/enums/roleEnum";
 import { Professor } from "../../professor/entities/professor.entity";
 import { Student } from "../../student/entities/student.entity";
-import { Column, Entity, JoinColumn, ManyToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { LearningPath } from "../../learning-path/entities/learning-path.entity";
 
 @Entity()
 export class User {
@@ -53,4 +54,10 @@ export class User {
         group => group.user
     )
     group: Group[];
+
+    @OneToOne(
+        () => LearningPath,
+        learningPath => learningPath.user
+    )
+    learningPath: LearningPath;
 }

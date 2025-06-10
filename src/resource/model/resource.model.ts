@@ -13,6 +13,7 @@ import { ErrorResponse } from "../../common/customResponses/errorResponse";
 import { UpdateResourceDto } from "../dto/update-resource.dto";
 import { PaginDto } from "../../common/dto/paginDto";
 import * as fs from 'fs-extra';
+import { Subject } from "src/subject/entities/subject.entity";
 
 @Injectable()
 export class ResourceModel {
@@ -71,7 +72,8 @@ export class ResourceModel {
             const [resources, total] = await this.resourceRepository.findAndCount({
                 skip: (page - 1) * limit,
                 take: limit,
-                where: { subject }
+                where: { subject },
+                select: { id: true, description: true, type: true }
             });
 
             return {resources, total, page, limit, totalPages: Math.ceil(total/limit)};
@@ -88,6 +90,35 @@ export class ResourceModel {
            return true;
         } catch (error) {
             this.handleException('deleteResourceById',error);
+        }
+    }
+
+   async getContentResourceById(id: number){
+        try {
+            const resourceDb = await this.getResourceById(id);
+            return  [await fs.stat(resourceDb.url), resourceDb.url];
+        } catch (error) {
+            this.handleException('getContentResourceById', error);
+        }
+    }
+
+    async getAllResourcesBySubject(subject: Subject){
+        try {
+            const data: Record<number, Resource[]> = {};
+            const resources = await this.resourceRepository.find({
+                where: { subject },
+                relations: ['session']
+            });
+            
+            resources.forEach(r => {
+                let session = r.session;
+                delete r.session;
+                data[session.id] ? data[session.id].push(r) : (data[session.id] = [r]);
+            });
+
+            return data;
+        } catch (error) {
+            this.handleException('getAllResourcesBySubject', error);
         }
     }
 
