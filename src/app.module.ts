@@ -24,6 +24,8 @@ import { SessionModule } from './session/session.module';
 import { Session } from './session/entities/session.entity';
 import { ResourceModule } from './resource/resource.module';
 import { Resource } from './resource/entities/resource.entity';
+import { LearningPathModule } from './learning-path/learning-path.module';
+import { LearningPath } from './learning-path/entities/learning-path.entity';
 
 @Module({
   imports: [
@@ -46,7 +48,8 @@ import { Resource } from './resource/entities/resource.entity';
         Chat, 
         Group,
         Session,
-        Resource
+        Resource,
+        LearningPath
       ],
       synchronize: true
     }),
@@ -63,6 +66,7 @@ import { Resource } from './resource/entities/resource.entity';
     GroupModule,
     SessionModule,
     ResourceModule,
+    LearningPathModule,
   ],
   controllers: [],
   providers: [],

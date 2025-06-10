@@ -8,6 +8,8 @@ import { messagesResponse } from 'src/common/messagesResponse';
 import { SuccessResponse } from 'src/common/customResponses/successResponse';
 import { User } from 'src/user/entities/user.entity';
 import { PaginDto } from 'src/common/dto/paginDto';
+import { Response } from 'express';
+import * as fs from 'fs-extra';
 
 @Injectable()
 export class ResourceService {
@@ -39,6 +41,16 @@ export class ResourceService {
     }
   }
 
+  async findOne(id: number){
+    try {
+      const resourceDb = await this.resourceModel.getResourceById(id);
+      delete resourceDb.url;
+      return SuccessResponse.build({data: resourceDb });
+    } catch (error) {
+      this.handleException(error);
+    }
+  }
+
   async update(id: number, updateResourceDto: UpdateResourceDto) {
     try {
        await this.resourceModel.updateResourceById(id, updateResourceDto);
@@ -54,6 +66,17 @@ export class ResourceService {
       return SuccessResponse.build({ message: messagesResponse.resourceDelete });
     } catch (error) {
       this.handleException(error);
+    }
+  }
+
+  async getResourceContent(id: number, res: Response){
+    try {
+      const [fileStat, path] = await this.resourceModel.getContentResourceById(id);
+       res.setHeader('Content-Length', fileStat.size);
+       res.setHeader('Cache-Control', 'public, max-age=31557600');
+       return fs.createReadStream(path).pipe(res);
+    } catch (error) {
+      return res.status(error.code).json(error);
     }
   }
 

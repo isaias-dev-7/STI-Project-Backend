@@ -1,8 +1,9 @@
 import { Group } from "../../group/entities/group.entity";
 import { Professor } from "../../professor/entities/professor.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Session } from "../../session/entities/session.entity";
 import { Resource } from "src/resource/entities/resource.entity";
+import { LearningPath } from "src/learning-path/entities/learning-path.entity";
 
 @Entity()
 export class Subject {
@@ -41,4 +42,10 @@ export class Subject {
         { cascade: ["remove"] }
     )
     resource: Resource[];
+
+    @OneToOne(
+        () => LearningPath,
+        learningPath => learningPath.subject
+    )
+    learningPath: LearningPath;
 }
