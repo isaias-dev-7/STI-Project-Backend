@@ -74,7 +74,7 @@ export class LearningPathModel {
         try {
             const path = this.learningPathRepository.find({
                 where: { user, subject },
-                relations: ['subject', 'resource']
+                relations: ['resource']
             });
 
             return path;
