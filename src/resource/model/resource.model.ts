@@ -55,10 +55,10 @@ export class ResourceModel {
         }
     }
 
-    async updateResourceById(id: number, updateResourceDto: UpdateResourceDto) {
+    async updateResourceById(id: number, {description, typeResource}: UpdateResourceDto) {
         try {
             await this.getResourceById(id);
-            await this.resourceRepository.update(id, { ...updateResourceDto });
+            await this.resourceRepository.update(id, { description, type: typeResource});
             return true;
         } catch (error) {
             this.handleException('updateResourceById', error);
