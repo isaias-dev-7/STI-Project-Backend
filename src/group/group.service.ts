@@ -63,6 +63,15 @@ export class GroupService {
     }
   }
 
+  async isStudentEnrolled(subjectId: number, user: User){
+    try {
+      const flag = await this.groupModel.isEnrolled(subjectId, user);
+      return SuccessResponse.build({ data: { isEnroled: flag } });
+    } catch (error) {
+      this.handleException(error);
+    }
+  }
+
  private handleException(error: any){
     console.error(`[ERROR] - handleException - group.service.ts`);
     console.error({ error });

@@ -92,6 +92,23 @@ export class GroupModel {
         }
     }
 
+    async isEnrolled(subjectId: number, user: User){
+        try {
+            const subject = await this.subjectModel.getSubjectById(subjectId);
+            const group = await this.groupRepository.findOne({
+                where: {
+                    user: { id: user.id },
+                    subject
+                },
+                relations: ["user", "subject"]
+            });
+
+            return group ? true : false;
+        } catch (error) {
+            this.handleException('isEnrolled', error);
+        }
+    }
+
     private handleException(description: string, error: any) {
         console.error(`[ERROR] - ${description} - /group/model/user.model.ts`);
         console.error({error});
