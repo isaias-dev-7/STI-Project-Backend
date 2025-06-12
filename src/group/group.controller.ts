@@ -64,6 +64,18 @@ export class GroupController {
     )
   }
 
+  @Get('users/:groupId')
+  @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
+  getUsers(
+    @Param('groupId', ParseIntPipe) groupId: number,
+    @GetUser() user: User,
+    @Res() res: Response
+  ){
+    this.utilsService.handleResponse(res, async () => 
+      this.groupService.getUsers(groupId, user)
+    );
+  }
+
   @Patch(':id')
   @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
   update(

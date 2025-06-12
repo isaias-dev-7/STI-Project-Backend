@@ -109,6 +109,20 @@ export class GroupModel {
         }
     }
 
+    async getStudentsByGrupoId(id: number, user: User){
+        try {
+            await this.getGroupById(id);
+            const { user: users } = await this.groupRepository.findOne({
+                where: { id },
+                relations: ["user"]
+            });
+            
+            return users.filter(u => u.id != user.id);
+        } catch (error) {
+            this.handleException('getStudentsByGrupoId', error);
+        }
+    }
+
     private handleException(description: string, error: any) {
         console.error(`[ERROR] - ${description} - /group/model/user.model.ts`);
         console.error({error});
