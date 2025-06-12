@@ -64,6 +64,15 @@ export class ChatModel {
         }
     }
 
+    async deleteChat(user: User){
+        try {
+            await this.chatRepository.delete(user);
+            return true;
+        } catch (error) {
+            this.handleException('deleteChat', error);
+        }
+    }
+
     private handleException(description: string, error: any) {
         console.error(`[ERROR] - ${description} - /chatbot/model/chat.model.ts`);
         console.error({error});

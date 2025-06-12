@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Post, Query, Res } from "@nestjs/common";
 import { ChatBotService } from "./chatbot.service";
 import { UtilsService } from "../utils/utils.service";
 import { GetUser } from "../auth/decorators/getUser.decorator";
@@ -37,6 +37,17 @@ export class ChatBotController {
     ){
         this.utilsService.handleResponse(res, async () => 
             this.chatBotService.getMessages(user, paginDto)
+        );
+    }
+
+    @Delete()
+    @Auth(roleEnum.ESTUDIANTE)
+    delete(
+        @GetUser() user: User,
+        @Res() res: Response
+    ){
+        this.utilsService.handleResponse(res, async () => 
+            this.chatBotService.remove(user)
         );
     }
 }

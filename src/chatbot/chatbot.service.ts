@@ -5,6 +5,7 @@ import { User } from "../user/entities/user.entity";
 import { SuccessResponse } from "../common/customResponses/successResponse";
 import { PaginDto } from "src/common/dto/paginDto";
 import { UtilsService } from "src/utils/utils.service";
+import { messagesResponse } from "src/common/messagesResponse";
 
 @Injectable()
 export class ChatBotService {
@@ -34,6 +35,15 @@ export class ChatBotService {
         } catch (error) {
             this.handleException(error);
         }
+   }
+
+   async remove(user: User){
+    try {
+        await this.chatModel.deleteChat(user);
+        return SuccessResponse.build({ message: messagesResponse.chatDeleted });
+    } catch (error) {
+        this.handleException(error);
+    }
    }
 
    private handleException(error: any){
