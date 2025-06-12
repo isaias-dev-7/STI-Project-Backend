@@ -9,6 +9,7 @@ import { SuccessResponse } from '../common/customResponses/successResponse';
 import { UtilsService } from '../utils/utils.service';
 import { MyResponse } from '../common/customResponses/response';
 import { PaginResponse } from '../common/customResponses/paginResponse';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
@@ -63,9 +64,9 @@ export class UserService {
     }
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<MyResponse> {
+  async update(id: number, user: User, updateUserDto: UpdateUserDto): Promise<MyResponse> {
     try {
-      await this.userModel.updateUser(id, updateUserDto);
+      await this.userModel.updateUser(id, user, updateUserDto);
       return SuccessResponse.build({
         message: messagesResponse.userUpdated
       });
@@ -82,6 +83,25 @@ export class UserService {
       return SuccessResponse.build({
         message: messagesResponse.userDeleted
       });
+    } catch (error) {
+      this.handleException(error);
+    }
+  }
+
+  async activateUserById(id: number){
+    try {
+      if(!(await this.userModel.getUserbyId(id)).active) throw ErrorResponse.build({ message: messagesResponse.userAlreadyActive });
+      await this.userModel.activateUser(id);
+      return SuccessResponse.build({ message: messagesResponse.userActived });
+    } catch (error) {
+      this.handleException(error);
+    }
+  }
+
+  async userCount(){
+    try {
+      const {...rest} = await this.userModel.userCountOnSystem();
+      return SuccessResponse.build({data: {...rest}});
     } catch (error) {
       this.handleException(error);
     }

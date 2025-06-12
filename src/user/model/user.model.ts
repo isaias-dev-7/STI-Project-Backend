@@ -219,19 +219,37 @@ export class UserModel {
 
     async updateUser(
         id: number,
-        updateUserDto: UpdateUserDto
+        user: User,
+        { password, email, fullname, facultad }: UpdateUserDto
     ){
         try {
-            //student 
-            //professor
+            await this.getUserbyId(id);
+            (user.role == roleEnum.ADMIN.toString()) ?
+                await this.userRepository.update(id, { password, email, fullname, facultad })
+                :
+                await this.userRepository.update(id, { password });
+            return true;
         } catch (error) {
-            this.handleException('update user', error);
+            this.handleException('updateUser', error);
         }
     }
 
-    async activateUser(email: string){
+    async userCountOnSystem(){
         try {
-            let userDb = await this.getUserByEmail(email);
+            const count = await this.userRepository.createQueryBuilder("user")
+                .select("user.role", "role")
+                .addSelect("COUNT(user.id)", "count")
+                .groupBy("user.role")
+                .getRawMany();
+            return count;
+        } catch (error) {
+            this.handleException('userCountOnSystemr', error);
+        }
+    }
+
+    async activateUser(id: number){
+        try {
+            let userDb = await this.getUserbyId(id);
             userDb.active = true;
             await this.userRepository.save(userDb);
             return true;

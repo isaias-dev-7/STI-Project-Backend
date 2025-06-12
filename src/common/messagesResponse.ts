@@ -35,6 +35,8 @@ export const messagesResponse = {
     userCreated: 'Usuario creado de manera exitosa',
     userDeleted: 'Usuario eliminado correctamente',
     userInactive: 'El usuario no esta activo hablar con el admin',
+    userActived: 'Usuario activado de manera exitosa',
+    userAlreadyActive: 'El usuario ya se encuentra activo en el sistema',
     userNotFound: 'Usuario no encontrado',
     userNotFoundOnRequest: 'Usuario no encontrado en la request',
     userUpdated: 'Usuario actualizado',

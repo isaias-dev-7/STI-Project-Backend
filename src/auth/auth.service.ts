@@ -77,7 +77,7 @@ export class AuthService {
                 password: process.env.PASS_ADMIN,
               }
             );
-            await this.userModel.activateUser(savedUser.email);
+            await this.userModel.activateUser(savedUser.id);
             console.log(
               `El usuario ${process.env.EMAIL_ADMIN} ha sido creado con éxito`,
             );
