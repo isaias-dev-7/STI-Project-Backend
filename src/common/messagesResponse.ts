@@ -3,6 +3,7 @@ export const messagesResponse = {
     chatBotUnavalible: 'chat bot no dio respuesta',
     curseTypeNeeded: 'Es necesario el tipo de curso',
     currentPasswordWrong: 'La contraseña actual es incorrecta',
+    chatDeleted: 'El chat ha sido eliminado de manera exitosa',
     emailAlreadyExist: 'El correo ya existe',
     fieldFileRequired: 'El campo file es requerido',
     resourceCreated: 'Recurso creado con éxito',
