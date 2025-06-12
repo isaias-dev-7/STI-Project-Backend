@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Resource } from "../entities/resource.entity";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import { CreateResourceDto } from "../dto/create-resource.dto";
 import { UtilsService } from "../../utils/utils.service";
 import { SessionModel } from "../../session/model/session.model";
@@ -107,6 +107,26 @@ export class ResourceModel {
             const data: Record<number, Resource[]> = {};
             const resources = await this.resourceRepository.find({
                 where: { subject },
+                relations: ['session']
+            });
+            
+            resources.forEach(r => {
+                let session = r.session;
+                delete r.session;
+                data[session.id] ? data[session.id].push(r) : (data[session.id] = [r]);
+            });
+
+            return data;
+        } catch (error) {
+            this.handleException('getAllResourcesBySubject', error);
+        }
+    }
+
+    async getResourcesWithSession(resourcesId: Number[]){
+        try {
+            const data: Record<number, Resource[]> = {};
+            const resources = await this.resourceRepository.find({
+                where: { id: In(resourcesId) },
                 relations: ['session']
             });
             

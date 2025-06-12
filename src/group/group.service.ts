@@ -72,6 +72,15 @@ export class GroupService {
     }
   }
 
+  async getUsers(id: number, user: User){
+    try {
+       const users = await this.groupModel.getStudentsByGrupoId(id, user);
+       return SuccessResponse.build({data: users});
+    } catch (error) {
+      this.handleException(error);
+    }
+  }
+
  private handleException(error: any){
     console.error(`[ERROR] - handleException - group.service.ts`);
     console.error({ error });

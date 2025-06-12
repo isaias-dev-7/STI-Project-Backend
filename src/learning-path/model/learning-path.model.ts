@@ -70,14 +70,19 @@ export class LearningPathModel {
         }
     }
 
-    private getLearningPath(user: User, subject: Subject) {
+    private async getLearningPath(user: User, subject: Subject) {
         try {
-            const path = this.learningPathRepository.find({
+            const resourcesId: Number[] = [];
+            const path = await this.learningPathRepository.findOne({
                 where: { user, subject },
                 relations: ['resource']
             });
 
-            return path;
+            path.resource.forEach(r => {
+                resourcesId.push(r.id);
+            });
+
+            return await this.resourceModel.getResourcesWithSession(resourcesId);
         } catch (error) {
             this.handleException('getLearningPath', error);
         }
