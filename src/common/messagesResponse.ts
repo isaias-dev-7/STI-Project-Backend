@@ -2,6 +2,7 @@ export const messagesResponse = {
     academicYearNeeded: 'Es necesario el año académico',
     chatBotUnavalible: 'chat bot no dio respuesta',
     curseTypeNeeded: 'Es necesario el tipo de curso',
+    currentPasswordWrong: 'La contraseña actual es incorrecta',
     emailAlreadyExist: 'El correo ya existe',
     fieldFileRequired: 'El campo file es requerido',
     resourceCreated: 'Recurso creado con éxito',

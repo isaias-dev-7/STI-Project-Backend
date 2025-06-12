@@ -52,6 +52,18 @@ export class GroupController {
     )
   }
 
+  @Get('isEnroled/:subjectId')
+  @Auth(roleEnum.ESTUDIANTE)
+  isEnroled(
+    @Param('subjectId', ParseIntPipe) subjectId: number,
+    @GetUser() user: User,
+    @Res() res: Response
+  ) {
+     this.utilsService.handleResponse(res, async () => 
+       this.groupService.isStudentEnrolled(subjectId, user)
+    )
+  }
+
   @Patch(':id')
   @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
   update(

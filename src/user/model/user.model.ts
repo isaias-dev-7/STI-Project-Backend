@@ -220,14 +220,20 @@ export class UserModel {
     async updateUser(
         id: number,
         user: User,
-        { password, email, fullname, facultad }: UpdateUserDto
+        { currentPassword, password, email, fullname, facultad }: UpdateUserDto
     ){
         try {
             await this.getUserbyId(id);
-            (user.role == roleEnum.ADMIN.toString()) ?
-                await this.userRepository.update(id, { password, email, fullname, facultad })
-                :
+            if(user.role == roleEnum.ADMIN.toString()){
+                await this.userRepository.update(id, { email, fullname, facultad });
+            }else {
+                const [{password: passwordDb}] = await this.getUserByUsername(user.username);
+               
+                if(!await this.utilsService.verifyPassword(currentPassword, passwordDb))
+                    throw ErrorResponse.build({code: 400, message: messagesResponse.currentPasswordWrong });
+                
                 await this.userRepository.update(id, { password });
+            }
             return true;
         } catch (error) {
             this.handleException('updateUser', error);
