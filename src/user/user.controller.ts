@@ -7,6 +7,8 @@ import { PaginDto } from '../common/dto/paginDto';
 import { UtilsService } from '../utils/utils.service';
 import { roleEnum } from '../common/enums/roleEnum';
 import { Auth } from '../auth/decorators/auth.decorator';
+import { GetUser } from 'src/auth/decorators/getUser.decorator';
+import { User } from './entities/user.entity';
 
 @Controller('user')
 export class UserController {
@@ -48,10 +50,38 @@ export class UserController {
     );
   }
 
-  @Patch(':id')
+  @Get('activate/:id')
   @Auth(roleEnum.ADMIN)
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  activate(
+    @Param('id') id: string,
+    @Res() res: Response
+  ) {
+    this.utilsService.handleResponse(res, async () => 
+      this.userService.activateUserById(+id)
+    );
+  }
+
+  @Get('count')
+  @Auth(roleEnum.ADMIN, roleEnum.ESTUDIANTE, roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
+  count(
+    @Res() res: Response
+  ){
+    this.utilsService.handleResponse(res, async () => 
+      this.userService.userCount()
+    );
+  }
+
+  @Patch(':id')
+  @Auth(roleEnum.ADMIN, roleEnum.ESTUDIANTE)
+  update(
+    @Param('id') id: string, 
+    @Body() updateUserDto: UpdateUserDto,
+    @GetUser() user: User,
+    @Res() res: Response
+  ) {
+    this.utilsService.handleResponse(res, async () => 
+      this.userService.update(+id, user, updateUserDto)
+    );
   }
 
   @Delete(':id')
