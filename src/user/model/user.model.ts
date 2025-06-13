@@ -116,6 +116,7 @@ export class UserModel {
                     student: true
                 },
                 select: {
+                    id: true,
                     role: true,
                     password: true,
                     username: true,
