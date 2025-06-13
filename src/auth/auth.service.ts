@@ -25,6 +25,7 @@ export class AuthService {
         try {
             let firtsTime;
             const [{
+                id,
                 password: passwordDb,
                 username: usernameDb,
                 active,
@@ -50,6 +51,7 @@ export class AuthService {
 
             return SuccessResponse.build({
                 data: {
+                    id,
                     username: usernameDb,
                     token,
                     role,
