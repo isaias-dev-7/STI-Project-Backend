@@ -90,7 +90,7 @@ export class UserService {
 
   async activateUserById(id: number){
     try {
-      if(!(await this.userModel.getUserbyId(id)).active) throw ErrorResponse.build({ message: messagesResponse.userAlreadyActive });
+      if((await this.userModel.getUserbyId(id)).active) throw ErrorResponse.build({ message: messagesResponse.userAlreadyActive });
       await this.userModel.activateUser(id);
       return SuccessResponse.build({ message: messagesResponse.userActived });
     } catch (error) {
