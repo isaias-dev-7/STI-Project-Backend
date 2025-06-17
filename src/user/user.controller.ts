@@ -72,7 +72,7 @@ export class UserController {
   }
 
   @Patch(':id')
-  @Auth(roleEnum.ADMIN, roleEnum.ESTUDIANTE)
+  @Auth(roleEnum.ADMIN, roleEnum.ESTUDIANTE, roleEnum.PROFESSOR_PRINCIPAL, roleEnum.PROFESSOR_AUXILIAR)
   update(
     @Param('id') id: string, 
     @Body() updateUserDto: UpdateUserDto,
