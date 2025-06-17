@@ -1,4 +1,3 @@
-import { LearningPath } from "../../learning-path/entities/learning-path.entity";
 import { Resource } from "../../resource/entities/resource.entity";
 import { Subject } from "../../subject/entities/subject.entity";
 import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";

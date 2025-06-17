@@ -73,6 +73,7 @@ export class ResourceModel {
                 skip: (page - 1) * limit,
                 take: limit,
                 where: { subject },
+                relations: ['session'],
                 select: { id: true, description: true, type: true }
             });
 
