@@ -225,15 +225,16 @@ export class UserModel {
     ){
         try {
             await this.getUserbyId(id);
-            if(user.role == roleEnum.ADMIN.toString()){
+            if(user.role == roleEnum.ADMIN.toString() && !currentPassword){
                 await this.userRepository.update(id, { email, fullname, facultad });
-            }else {
+            }else if(currentPassword){
+                
                 const [{password: passwordDb}] = await this.getUserByUsername(user.username);
                
                 if(!await this.utilsService.verifyPassword(currentPassword, passwordDb))
                     throw ErrorResponse.build({code: 400, message: messagesResponse.currentPasswordWrong });
-                
-                await this.userRepository.update(id, { password });
+                let passwordHash = this.utilsService.hashPassword(password);
+                await this.userRepository.update(id, { password: passwordHash });
             }
             return true;
         } catch (error) {
