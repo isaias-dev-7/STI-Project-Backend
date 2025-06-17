@@ -39,6 +39,16 @@ export class UserController {
 
   }
 
+  @Get('count/')
+  @Auth(roleEnum.ADMIN, roleEnum.ESTUDIANTE, roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
+  count(
+    @Res() res: Response
+  ){
+    this.utilsService.handleResponse(res, async () => 
+      this.userService.userCount()
+    );
+  }
+
   @Get(':id')
   @Auth(roleEnum.ADMIN, roleEnum.PROFESSOR_PRINCIPAL, roleEnum.PROFESSOR_AUXILIAR)
   findOne(
@@ -58,16 +68,6 @@ export class UserController {
   ) {
     this.utilsService.handleResponse(res, async () => 
       this.userService.activateUserById(+id)
-    );
-  }
-
-  @Get('count')
-  @Auth(roleEnum.ADMIN, roleEnum.ESTUDIANTE, roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
-  count(
-    @Res() res: Response
-  ){
-    this.utilsService.handleResponse(res, async () => 
-      this.userService.userCount()
     );
   }
 

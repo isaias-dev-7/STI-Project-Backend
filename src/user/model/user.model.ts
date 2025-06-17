@@ -243,12 +243,21 @@ export class UserModel {
 
     async userCountOnSystem(){
         try {
-            const count = await this.userRepository.createQueryBuilder("user")
-                .select("user.role", "role")
-                .addSelect("COUNT(user.id)", "count")
-                .groupBy("user.role")
-                .getRawMany();
-            return count;
+            let student = 0, professor = 0, admin = 0;
+            const users = await this.userRepository.find();
+            
+            users.forEach( u => {
+                if(u.role == roleEnum.ADMIN) admin += 1;
+                else if(u.role == roleEnum.ESTUDIANTE) student += 1;
+                else if(u.role == roleEnum.PROFESSOR_AUXILIAR || u.role == roleEnum.PROFESSOR_PRINCIPAL) professor += 1; 
+            });
+
+            return { 
+                student, 
+                professor, 
+                admin, 
+                total: student + professor + admin 
+            };
         } catch (error) {
             this.handleException('userCountOnSystemr', error);
         }
