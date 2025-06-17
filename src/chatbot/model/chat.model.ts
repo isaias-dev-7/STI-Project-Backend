@@ -11,6 +11,7 @@ import { ErrorResponse } from "../../common/customResponses/errorResponse";
 import { messagesResponse } from "../../common/messagesResponse";
 import { PaginDto } from "src/common/dto/paginDto";
 import { UserModel } from "src/user/model/user.model";
+import { throwError } from "rxjs";
 
 @Injectable()
 export class ChatModel {
@@ -66,7 +67,10 @@ export class ChatModel {
 
     async deleteChat(user: User){
         try {
-            await this.chatRepository.delete(user);
+            const { chats } = await this.getMessagesByUser(user, {});
+            if(chats.length == 0) throw ErrorResponse.build({code: 404});
+            const { student } = await this.userModel.getUserbyId(user.id);
+            await this.chatRepository.delete({ student });
             return true;
         } catch (error) {
             this.handleException('deleteChat', error);
