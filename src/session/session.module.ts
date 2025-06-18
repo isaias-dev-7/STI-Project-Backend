@@ -8,6 +8,7 @@ import { AuthModule } from '../auth/auth.module';
 import { SubjectModule } from '../subject/subject.module';
 import { SessionModel } from './model/session.model';
 import { UserModule } from '../user/user.module';
+import { ResourceModule } from '../resource/resource.module';
 
 @Module({
   imports:[
@@ -15,7 +16,8 @@ import { UserModule } from '../user/user.module';
     UtilsModule,
     AuthModule,
     SubjectModule,
-    UserModule
+    UserModule,
+    ResourceModule
   ],
   controllers: [SessionController],
   providers: [

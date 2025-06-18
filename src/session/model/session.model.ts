@@ -9,13 +9,15 @@ import { messagesResponse } from "../../common/messagesResponse";
 import { User } from "../../user/entities/user.entity";
 import { UpdateSessionDto } from "../dto/update-session.dto";
 import { UserModel } from "../../user/model/user.model";
+import { ResourceModel } from "../../resource/model/resource.model";
 
 @Injectable()
 export class SessionModel {
     constructor(
         @InjectRepository(Session) private readonly sessionRepository: Repository<Session>,
         private readonly subjectModel: SubjectModel,
-        private readonly userModel: UserModel
+        private readonly userModel: UserModel,
+        private readonly resourceModel: ResourceModel
     ){}
 
     async createSession({name, numberSession, description}: CreateSessionDto, user: User){
@@ -62,11 +64,16 @@ export class SessionModel {
 
     async getSessionById(id: number){
         try {
-            const session = await this.sessionRepository.findOneBy({id});
+            const session = await this.sessionRepository.findOne({
+                where: {id},
+                relations: ['resource']
+            });
+
             if(!session) throw ErrorResponse.build({
                 code: 400, 
                 message: messagesResponse.sessionNotFound
-            })
+            });
+
             return session;
         } catch (error) {
             this.handleException('getSessionById', error);
@@ -80,6 +87,20 @@ export class SessionModel {
             return true;
         } catch (error) {
             this.handleException('deleteSessioById', error);
+        }
+    }
+
+    async assingResources(idSession: number, resourceIds: Number[]){
+        try {
+            const ids = [...new Set(resourceIds)];
+            const resources = await this.resourceModel.getResourcesByIds(ids);
+            const sessionDb = await this.getSessionById(idSession);
+
+            sessionDb.resource = [...sessionDb.resource, ...resources];
+            await this.sessionRepository.save(sessionDb);
+            return true;
+        } catch (error) {
+            this.handleException('assingResources', error);
         }
     }
 

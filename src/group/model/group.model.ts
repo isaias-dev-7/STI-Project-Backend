@@ -20,6 +20,9 @@ export class GroupModel {
 
     async createGroup({key, name}: CreateGroupDto, user: User){
         try {
+            const groupDb = await this.groupRepository.findOneBy({ key });
+            if(groupDb) throw ErrorResponse.build({ code: 400, message: messagesResponse.keyAlreadyExist });
+        
             const { professor } = await this.userModel.getUserbyId(user.id);
             const subject = await this.subjectModel.getSubjectByProfessor(professor);
            

@@ -32,10 +32,6 @@ export class SessionService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} session`;
-  }
-
   async update(
     id: number,
     updateSessionDto: UpdateSessionDto
@@ -52,6 +48,15 @@ export class SessionService {
     try {
       await this.sessionModel.deleteSessioById(id);
       return SuccessResponse.build({ message: messagesResponse.sessionDelete });
+    } catch (error) {
+      this.handleException(error);
+    }
+  }
+
+  async assingResourcesByIds(idSession: number, ids: Number[]){
+    try {
+      await this.sessionModel.assingResources(idSession, ids);
+      return SuccessResponse.build({message: messagesResponse.resourcesAssing });
     } catch (error) {
       this.handleException(error);
     }
