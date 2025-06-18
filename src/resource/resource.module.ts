@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ResourceService } from './resource.service';
 import { ResourceController } from './resource.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -15,7 +15,7 @@ import { SubjectModule } from 'src/subject/subject.module';
     TypeOrmModule.forFeature([Resource]),
     AuthModule,
     UtilsModule,
-    SessionModule,
+    forwardRef(() => SessionModule),
     UserModule,
     SubjectModule
   ],

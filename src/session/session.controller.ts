@@ -8,6 +8,7 @@ import { GetUser } from '../auth/decorators/getUser.decorator';
 import { User } from '../user/entities/user.entity';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { roleEnum } from '../common/enums/roleEnum';
+import { AssingResourceDto } from './dto/assing-resource.dto';
 
 @Controller('session')
 export class SessionController {
@@ -25,6 +26,17 @@ export class SessionController {
   ) {
     this.utilsService.handleResponse(res, async () => 
       this.sessionService.create(createSessionDto, user)
+    );
+  }
+
+  @Post('assing/')
+  @Auth(roleEnum.PROFESSOR_AUXILIAR, roleEnum.PROFESSOR_PRINCIPAL)
+  assign(
+     @Body() { idSession, idsResources }: AssingResourceDto,
+     @Res() res: Response
+  ){
+    this.utilsService.handleResponse(res, async () => 
+      this.sessionService.assingResourcesByIds(idSession, idsResources)
     );
   }
 

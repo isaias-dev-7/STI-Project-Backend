@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Resource } from "../entities/resource.entity";
 import { In, Repository } from "typeorm";
@@ -20,7 +20,7 @@ export class ResourceModel {
     constructor(
         @InjectRepository(Resource) private readonly resourceRepository: Repository<Resource>,
         private readonly utilsService: UtilsService,
-        private readonly sessionModel: SessionModel,
+        @Inject(forwardRef(() => SessionModel))private readonly sessionModel: SessionModel,
         private readonly userModel: UserModel,
         private readonly subjectModel: SubjectModel
     ){}
@@ -140,6 +140,20 @@ export class ResourceModel {
             return data;
         } catch (error) {
             this.handleException('getAllResourcesBySubject', error);
+        }
+    }
+
+    async getResourcesByIds(ids: Number[]){
+        try {
+            const resources = await this.resourceRepository.find({
+                where: {  id: In(ids) }
+            });
+            if(resources.length == 0) 
+                throw ErrorResponse.build({ code: 404, message: messagesResponse.resourceNotFound });
+            
+            return resources;
+        } catch (error) {
+           this.handleException('getResourcesByIds', error); 
         }
     }
 
